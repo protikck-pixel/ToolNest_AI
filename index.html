@@ -1,69 +1,185 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Free AI tools for creators and small businesses.">
-  <title>ToolNest AI — Free AI Tools</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Free AI tools for creators and small businesses.">
+<title>ToolNest AI — Free AI Tools</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <header class="nav">
-  <a class="brand" href="#">ToolNest<span>AI</span></a>
-  <nav><a href="#tools">Tools</a><a href="#products">Products</a><a href="#about">About</a></nav>
+<a class="brand" href="#">ToolNest<span>AI</span></a>
+<nav>
+<a href="#tools">Tools</a>
+<a href="#products">Products</a>
+<a href="#about">About</a>
+</nav>
 </header>
 
 <main>
+
 <section class="hero">
-  <p class="eyebrow">FREE AI TOOLS FOR EVERYDAY WORK</p>
-  <h1>Work smarter.<br><span>Create faster.</span></h1>
-  <p class="sub">Simple AI-powered tools for creators, freelancers and small businesses.</p>
-  <a class="button" href="#tools">Explore free tools</a>
+<p class="eyebrow">FREE AI TOOLS FOR EVERYDAY WORK</p>
+
+<h1>Work smarter.<br><span>Create faster.</span></h1>
+
+<p class="sub">
+Simple AI-powered tools for creators, freelancers and small businesses.
+</p>
+
+<a class="button" href="#tools">Explore free tools</a>
 </section>
+
 
 <section id="tools" class="section">
-  <div class="section-head"><h2>Free tools</h2><p>Start with tools people can use immediately.</p></div>
-  <div class="grid">
-    <article class="card">
-      <div class="icon">✍️</div><h3>Caption Generator</h3>
-      <p>Create social captions from a topic in seconds.</p>
-      <textarea id="captionInput" placeholder="Example: New coffee shop opening..."></textarea>
-      <button onclick="generateCaption()">Generate</button>
-      <div id="captionOutput" class="output"></div>
-    </article>
-    <article class="card">
-      <div class="icon">🎬</div><h3>Video Hook Generator</h3>
-      <p>Turn an idea into attention-grabbing video hooks.</p>
-      <textarea id="hookInput" placeholder="Example: 5 ways to save money..."></textarea>
-      <button onclick="generateHooks()">Generate</button>
-      <div id="hookOutput" class="output"></div>
-    </article>
-    <article class="card">
-      <div class="icon">💼</div><h3>Business Name Ideas</h3>
-      <p>Generate brand-name directions for a new business.</p>
-      <textarea id="nameInput" placeholder="Example: online bakery..."></textarea>
-      <button onclick="generateNames()">Generate</button>
-      <div id="nameOutput" class="output"></div>
-    </article>
-  </div>
-  <p class="note">These starter tools use browser-based templates. We can connect real AI APIs later.</p>
+
+<div class="section-head">
+<h2>Free tools</h2>
+<p>Start with tools people can use immediately.</p>
+</div>
+
+
+<div class="grid">
+
+<!-- Caption Generator -->
+<article class="card">
+
+<div class="icon">✍️</div>
+
+<h3>Caption Generator</h3>
+
+<p>Create social captions from a topic in seconds.</p>
+
+<textarea id="captionInput"
+placeholder="Example: New coffee shop opening..."></textarea>
+
+<button onclick="generateCaption()">Generate</button>
+
+<div id="captionOutput" class="output"></div>
+
+</article>
+
+
+<!-- Video Hook Generator -->
+<article class="card">
+
+<div class="icon">🎬</div>
+
+<h3>Video Hook Generator</h3>
+
+<p>Turn an idea into attention-grabbing video hooks.</p>
+
+<textarea id="hookInput"
+placeholder="Example: 5 ways to save money..."></textarea>
+
+<button onclick="generateHooks()">Generate</button>
+
+<div id="hookOutput" class="output"></div>
+
+</article>
+
+
+<!-- Business Name Generator -->
+<article class="card">
+
+<div class="icon">💼</div>
+
+<h3>Business Name Ideas</h3>
+
+<p>Generate brand-name directions for a new business.</p>
+
+<textarea id="nameInput"
+placeholder="Example: online bakery..."></textarea>
+
+<button onclick="generateNames()">Generate</button>
+
+<div id="nameOutput" class="output"></div>
+
+</article>
+
+
+<!-- NEW TEXT SUMMARIZER -->
+<article class="card">
+
+<div class="icon">📝</div>
+
+<h3>Text Summarizer</h3>
+
+<p>Turn long text into a short, easy-to-read summary.</p>
+
+<textarea id="summaryInput"
+placeholder="Paste your text here..."></textarea>
+
+<button onclick="summarizeText()">Summarize</button>
+
+<div id="summaryOutput" class="output"></div>
+
+</article>
+
+
+</div>
+
+<p class="note">
+These free tools currently use browser-based templates. More powerful AI features can be connected later.
+</p>
+
 </section>
+
 
 <section id="products" class="section products">
-  <div class="section-head"><h2>Digital products</h2><p>Our first monetization layer.</p></div>
-  <div class="product">
-    <div><h3>Small Business AI Prompt Pack</h3><p>Ready-to-use prompts for content, marketing and customer replies.</p></div>
-    <a class="button small" href="#" onclick="alert('Payment link will be connected after your Gumroad/Stripe setup.');return false;">Buy — $5</a>
-  </div>
+
+<div class="section-head">
+
+<h2>Digital products</h2>
+
+<p>Our first monetization layer.</p>
+
+</div>
+
+<div class="product">
+
+<div>
+
+<h3>Small Business AI Prompt Pack</h3>
+
+<p>
+Ready-to-use prompts for content, marketing and customer replies.
+</p>
+
+</div>
+
+<a class="button small"
+href="#"
+onclick="alert('Payment link will be connected soon.');return false;">
+Buy — $5
+</a>
+
+</div>
+
 </section>
+
 
 <section id="about" class="section about">
-  <h2>Built for useful work.</h2>
-  <p>ToolNest AI is designed around simple tools that solve real problems without unnecessary complexity.</p>
+
+<h2>Built for useful work.</h2>
+
+<p>
+ToolNest AI is designed around simple tools that solve real problems without unnecessary complexity.
+</p>
+
 </section>
+
 </main>
 
-<footer>© 2026 ToolNest AI · Free tools for creators & small businesses</footer>
+
+<footer>
+© 2026 ToolNest AI · Free tools for creators & small businesses
+</footer>
+
 <script src="script.js"></script>
+
 </body>
 </html>
