@@ -1,356 +1,224 @@
-/* =========================
-   TOOLNEST AI
-   MAIN JAVASCRIPT
-========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  // =========================
+  // THEME
+  // =========================
 
+  const themeToggle = document.getElementById("themeToggle");
+  const body = document.body;
 
-/* =========================
-   THEME
-========================= */
+  function updateThemeIcon() {
+    if (!themeToggle) return;
 
-function applySavedTheme() {
+    const isDark = body.classList.contains("dark");
+    themeToggle.textContent = isDark ? "☀️" : "🌙";
+    themeToggle.setAttribute(
+      "aria-label",
+      isDark ? "Switch to light mode" : "Switch to dark mode"
+    );
+  }
+
   const savedTheme = localStorage.getItem("toolnest-theme");
 
   if (savedTheme === "dark") {
-    document.body.classList.add("dark");
+    body.classList.add("dark");
   } else {
-    document.body.classList.remove("dark");
+    body.classList.remove("dark");
   }
 
   updateThemeIcon();
-}
 
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      body.classList.toggle("dark");
 
-function toggleTheme() {
-  document.body.classList.toggle("dark");
+      localStorage.setItem(
+        "toolnest-theme",
+        body.classList.contains("dark") ? "dark" : "light"
+      );
 
-  const isDark = document.body.classList.contains("dark");
+      updateThemeIcon();
+    });
+  }
 
-  localStorage.setItem(
-    "toolnest-theme",
-    isDark ? "dark" : "light"
-  );
+  // =========================
+  // MOBILE MENU
+  // =========================
 
-  updateThemeIcon();
-}
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
 
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("open");
+    });
 
-function updateThemeIcon() {
-  const button = document.getElementById("themeToggle");
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+      });
+    });
+  }
 
-  if (!button) return;
+  // =========================
+  // ONE BOX
+  // =========================
 
-  const isDark = document.body.classList.contains("dark");
+  const oneBoxInput = document.getElementById("oneBoxInput");
+  const oneBoxButton = document.getElementById("oneBoxButton");
+  const oneBoxResult = document.getElementById("oneBoxResult");
 
-  button.textContent = isDark ? "☀️" : "🌙";
-}
+  const suggestions = document.querySelectorAll("[data-suggestion]");
 
+  suggestions.forEach((button) => {
+    button.addEventListener("click", () => {
+      const text = button.getAttribute("data-suggestion");
 
-/* =========================
-   MOBILE MENU
-========================= */
-
-function toggleMobileMenu() {
-  const menu = document.getElementById("mobileMenu");
-
-  if (!menu) return;
-
-  menu.classList.toggle("open");
-}
-
-
-function closeMobileMenu() {
-  const menu = document.getElementById("mobileMenu");
-
-  if (!menu) return;
-
-  menu.classList.remove("open");
-}
-
-
-/* =========================
-   ONE BOX
-========================= */
-
-function useSuggestion(text) {
-  const input = document.getElementById("oneBoxInput");
-
-  if (!input) return;
-
-  input.value = text;
-
-  input.focus();
-}
-
-
-function focusOneBox() {
-  const input = document.getElementById("oneBoxInput");
-
-  if (!input) return;
-
-  window.scrollTo({
-    top: document.querySelector(".hero").offsetTop - 70,
-    behavior: "smooth"
+      if (oneBoxInput) {
+        oneBoxInput.value = text;
+        oneBoxInput.focus();
+      }
+    });
   });
 
-  setTimeout(() => {
-    input.focus();
-  }, 500);
-}
-
-
-function handleOneBox() {
-
-  const input = document.getElementById("oneBoxInput");
-  const result = document.getElementById("oneBoxResult");
-
-  if (!input || !result) return;
-
-  const task = input.value.trim();
-
-  if (!task) {
-
-    result.innerHTML = `
-      <strong>Tell me what you need.</strong><br>
-      <span>For example: "Write a professional email to my boss."</span>
-    `;
-
-    result.classList.add("show");
-
-    return;
+  function escapeHTML(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
   }
 
+  function handleOneBox() {
+    if (!oneBoxInput || !oneBoxResult) return;
 
-  const lowerTask = task.toLowerCase();
+    const request = oneBoxInput.value.trim();
 
-  let toolName = "ToolNest Assistant";
-  let icon = "✦";
-  let description =
-    "Your request looks like something ToolNest can help you with.";
+    if (!request) {
+      oneBoxResult.innerHTML = `
+        <div class="result-inner">
+          <strong>Tell me what you need.</strong>
+          <p>For example: “Write a Facebook caption for my restaurant.”</p>
+        </div>
+      `;
 
+      oneBoxResult.classList.add("show");
+      return;
+    }
 
-  /* EMAIL */
+    const text = request.toLowerCase();
 
-  if (
-    lowerTask.includes("email") ||
-    lowerTask.includes("mail") ||
-    lowerTask.includes("boss")
-  ) {
+    let toolName = "ToolNest Assistant";
+    let message =
+      "I understand what you need. ToolNest will help you find the right tool for this task.";
 
-    toolName = "Email Writer";
-    icon = "📧";
+    if (
+      text.includes("caption") ||
+      text.includes("facebook caption") ||
+      text.includes("instagram caption")
+    ) {
+      toolName = "Caption Generator";
+      message =
+        "Your request matches our Caption Generator. We can create engaging captions for Facebook, Instagram and other social platforms.";
+    } else if (
+      text.includes("summarize") ||
+      text.includes("summary") ||
+      text.includes("shorten this")
+    ) {
+      toolName = "Text Summarizer";
+      message =
+        "Your request matches our Text Summarizer. It can turn long text into a clear and shorter version.";
+    } else if (
+      text.includes("email") ||
+      text.includes("mail") ||
+      text.includes("email me")
+    ) {
+      toolName = "Email Writer";
+      message =
+        "Your request matches our Email Writer. It can help you create a professional email quickly.";
+    } else if (
+      text.includes("hook") ||
+      text.includes("video hook") ||
+      text.includes("youtube hook")
+    ) {
+      toolName = "Video Hook Generator";
+      message =
+        "Your request matches our Video Hook Generator. It can help create attention-grabbing opening lines for videos.";
+    } else if (
+      text.includes("business name") ||
+      text.includes("company name") ||
+      text.includes("brand name")
+    ) {
+      toolName = "Business Name Generator";
+      message =
+        "Your request matches our Business Name Generator. It can help generate memorable business and brand names.";
+    } else if (
+      text.includes("social post") ||
+      text.includes("social media post") ||
+      text.includes("linkedin post")
+    ) {
+      toolName = "Social Media Post Generator";
+      message =
+        "Your request matches our Social Media Post Generator. It can help turn your idea into a ready-to-use social post.";
+    }
 
-    description =
-      "Turn your idea into a clear and professional email.";
-
-  }
-
-
-  /* SUMMARY */
-
-  else if (
-    lowerTask.includes("summarize") ||
-    lowerTask.includes("summary") ||
-    lowerTask.includes("shorten")
-  ) {
-
-    toolName = "Text Summarizer";
-    icon = "📝";
-
-    description =
-      "Turn long text into a shorter, easier-to-read summary.";
-
-  }
-
-
-  /* CAPTION */
-
-  else if (
-    lowerTask.includes("caption") ||
-    lowerTask.includes("instagram") ||
-    lowerTask.includes("facebook post")
-  ) {
-
-    toolName = "Caption Generator";
-    icon = "✍️";
-
-    description =
-      "Create an engaging social media caption from your idea.";
-
-  }
-
-
-  /* VIDEO */
-
-  else if (
-    lowerTask.includes("video") ||
-    lowerTask.includes("hook") ||
-    lowerTask.includes("youtube")
-  ) {
-
-    toolName = "Video Hook Generator";
-    icon = "🎬";
-
-    description =
-      "Create stronger opening hooks for your videos.";
-
-  }
-
-
-  /* BUSINESS */
-
-  else if (
-    lowerTask.includes("business name") ||
-    lowerTask.includes("company name") ||
-    lowerTask.includes("brand name")
-  ) {
-
-    toolName = "Business Name Generator";
-    icon = "💼";
-
-    description =
-      "Generate fresh naming directions for your business.";
-
-  }
-
-
-  /* SOCIAL */
-
-  else if (
-    lowerTask.includes("social media") ||
-    lowerTask.includes("social post") ||
-    lowerTask.includes("post idea")
-  ) {
-
-    toolName = "Social Post Generator";
-    icon = "📱";
-
-    description =
-      "Create social media content ideas faster.";
-
-  }
-
-
-  result.innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div style="
-        width:38px;
-        height:38px;
-        border-radius:10px;
-        display:grid;
-        place-items:center;
-        background:var(--accent-soft);
-        font-size:19px;
-      ">
-        ${icon}
-      </div>
-
-      <div>
-        <strong>${toolName}</strong>
-
-        <div style="
-          margin-top:3px;
-          color:var(--text-soft);
-          font-size:12px;
-        ">
-          ${description}
+    oneBoxResult.innerHTML = `
+      <div class="result-inner">
+        <span class="result-label">SUGGESTED TOOL</span>
+        <h3>${escapeHTML(toolName)}</h3>
+        <p>${escapeHTML(message)}</p>
+        <div class="result-request">
+          <strong>Your request:</strong>
+          <span>${escapeHTML(request)}</span>
         </div>
       </div>
-    </div>
+    `;
 
-    <div style="
-      margin-top:13px;
-      padding-top:12px;
-      border-top:1px solid var(--border);
-      color:var(--text-soft);
-      font-size:12px;
-    ">
-      Your request: "${escapeHTML(task)}"
-    </div>
-  `;
+    oneBoxResult.classList.add("show");
 
-  result.classList.add("show");
-}
-
-
-/* =========================
-   SECURITY HELPER
-========================= */
-
-function escapeHTML(text) {
-
-  const div = document.createElement("div");
-
-  div.textContent = text;
-
-  return div.innerHTML;
-}
-
-
-/* =========================
-   COMING SOON
-========================= */
-
-function showComingSoon() {
-
-  alert(
-    "ToolNest Pro is coming soon. Free tools will remain available."
-  );
-
-}
-
-
-/* =========================
-   KEYBOARD SHORTCUT
-========================= */
-
-document.addEventListener("keydown", function(event) {
-
-  if (
-    (event.ctrlKey || event.metaKey) &&
-    event.key === "k"
-  ) {
-
-    event.preventDefault();
-
-    focusOneBox();
-
+    oneBoxResult.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
+    });
   }
 
-});
-
-
-/* =========================
-   CLOSE MOBILE MENU
-   WHEN CLICKING OUTSIDE
-========================= */
-
-document.addEventListener("click", function(event) {
-
-  const menu = document.getElementById("mobileMenu");
-  const button = document.querySelector(".mobile-menu-btn");
-
-  if (!menu || !button) return;
-
-  if (
-    menu.classList.contains("open") &&
-    !menu.contains(event.target) &&
-    !button.contains(event.target)
-  ) {
-
-    closeMobileMenu();
-
+  if (oneBoxButton) {
+    oneBoxButton.addEventListener("click", handleOneBox);
   }
 
-});
+  if (oneBoxInput) {
+    oneBoxInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleOneBox();
+      }
+    });
+  }
 
+  // =========================
+  // KEYBOARD SHORTCUT
+  // =========================
 
-/* =========================
-   START
-========================= */
+  document.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+      event.preventDefault();
 
-document.addEventListener("DOMContentLoaded", function() {
+      if (oneBoxInput) {
+        oneBoxInput.focus();
+      }
+    }
+  });
 
-  applySavedTheme();
+  // =========================
+  // CLOSE MOBILE MENU
+  // =========================
 
+  document.addEventListener("click", (event) => {
+    if (!mobileMenu || !menuToggle) return;
+
+    if (
+      mobileMenu.classList.contains("open") &&
+      !mobileMenu.contains(event.target) &&
+      !menuToggle.contains(event.target)
+    ) {
+      mobileMenu.classList.remove("open");
+    }
+  });
 });
