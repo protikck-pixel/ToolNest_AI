@@ -4,405 +4,264 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="description"
-    content="ToolNest AI — simple AI tools for writing, content, business and everyday work."
-  >
-
   <title>ToolNest AI — One Box. Any Task.</title>
+  <meta name="description" content="ToolNest AI helps you turn ideas into useful content with simple AI-powered tools.">
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- ================= NAVBAR ================= -->
+  <!-- Background -->
+  <div class="background-glow glow-one"></div>
+  <div class="background-glow glow-two"></div>
+  <div class="background-grid"></div>
 
+  <!-- NAVBAR -->
   <header class="navbar">
-
     <div class="nav-container">
 
       <a href="#" class="logo">
-        ToolNest<span>AI</span>
+        <span class="logo-icon">✦</span>
+        <span>ToolNest<span class="logo-ai">AI</span></span>
       </a>
 
-      <nav class="nav-links">
+      <nav class="desktop-nav">
         <a href="#tools">Tools</a>
         <a href="#solutions">Solutions</a>
+        <a href="#how-it-works">How it works</a>
         <a href="#pricing">Pricing</a>
       </nav>
 
       <div class="nav-actions">
-
-        <button
-          class="theme-btn"
-          id="themeToggle"
-          onclick="toggleTheme()"
-          aria-label="Toggle theme"
-        >
-          🌙
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle theme">
+          ☾
         </button>
 
-        <a href="#" class="login-btn">
-          Log in
-        </a>
+        <a href="#" class="login-button">Log in</a>
+        <a href="#" class="signup-button">Sign up</a>
 
-        <a href="#" class="signup-btn">
-          Sign up
-        </a>
-
+        <button id="menuToggle" class="menu-button" type="button" aria-label="Open menu">
+          ☰
+        </button>
       </div>
 
-      <button
-        class="mobile-menu-btn"
-        onclick="toggleMobileMenu()"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
-
     </div>
 
-    <div class="mobile-menu" id="mobileMenu">
-
-      <a href="#tools" onclick="closeMobileMenu()">Tools</a>
-      <a href="#solutions" onclick="closeMobileMenu()">Solutions</a>
-      <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
-      <a href="#" onclick="closeMobileMenu()">Log in</a>
-
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="#tools">Tools</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#" class="mobile-login">Log in</a>
+      <a href="#" class="mobile-signup">Sign up</a>
     </div>
-
   </header>
 
 
-  <!-- ================= MAIN ================= -->
-
+  <!-- HERO -->
   <main>
-
-
-    <!-- ================= HERO ================= -->
 
     <section class="hero">
 
-      <div class="hero-glow glow-one"></div>
-      <div class="hero-glow glow-two"></div>
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AI tools for everyday work
+      </div>
 
-      <div class="hero-content">
+      <h1>
+        One box.
+        <span>Any task.</span>
+      </h1>
 
-        <div class="hero-badge">
-          <span class="status-dot"></span>
-          Simple AI tools for real work
-        </div>
+      <p class="hero-text">
+        Tell ToolNest what you want to get done.
+        We'll help you find the right way to do it.
+      </p>
 
-        <h1>
-          One box.
-          <span>Any task.</span>
-        </h1>
+      <!-- ONE BOX -->
+      <div class="one-box-wrapper">
 
-        <p class="hero-subtitle">
-          Tell ToolNest what you want to get done.
-          We’ll help you find the right way to do it.
-        </p>
+        <div class="one-box">
 
+          <div class="one-box-top">
+            <span class="sparkle">✦</span>
 
-        <!-- ONE BOX -->
-
-        <div class="command-box">
-
-          <div class="command-top">
-
-            <span class="command-icon">✦</span>
-
-            <textarea
+            <input
               id="oneBoxInput"
-              placeholder="What do you want to get done?"
-              rows="2"
-            ></textarea>
+              type="text"
+              placeholder="What do you want to create?"
+              autocomplete="off"
+            >
 
+            <button id="oneBoxButton" type="button">
+              <span>Ask ToolNest</span>
+              <span class="arrow">→</span>
+            </button>
           </div>
 
-          <div class="command-bottom">
+          <div class="suggestions">
+            <span>Try:</span>
 
-            <div class="command-hints">
-
-              <button onclick="useSuggestion('Write a professional email')">
-                Email
-              </button>
-
-              <button onclick="useSuggestion('Create a Facebook post')">
-                Social
-              </button>
-
-              <button onclick="useSuggestion('Summarize this text')">
-                Summarize
-              </button>
-
-              <button onclick="useSuggestion('Give me business name ideas')">
-                Business
-              </button>
-
-            </div>
-
-            <button
-              class="ask-btn"
-              onclick="handleOneBox()"
-            >
-              <span>Ask ToolNest</span>
-              <span>→</span>
+            <button type="button" data-suggestion="Write a Facebook caption for my restaurant">
+              Facebook caption
             </button>
 
+            <button type="button" data-suggestion="Summarize this text">
+              Summarize
+            </button>
+
+            <button type="button" data-suggestion="Write a professional email">
+              Email
+            </button>
+
+            <button type="button" data-suggestion="Give me 10 business name ideas">
+              Business names
+            </button>
           </div>
 
         </div>
 
+        <!-- RESULT -->
+        <div id="oneBoxResult" class="one-box-result"></div>
 
-        <div id="oneBoxResult" class="onebox-result"></div>
+      </div>
 
-
-        <p class="hero-note">
-          Free to start · No complicated setup
-        </p>
-
+      <div class="hero-note">
+        <span>✦</span>
+        No complicated prompts. Just tell us what you need.
       </div>
 
     </section>
 
 
-    <!-- ================= POPULAR TOOLS ================= -->
+    <!-- TRUST -->
+    <section class="trust-section">
+      <p>BUILT FOR THE WAY YOU WORK</p>
 
-    <section class="section tools-section" id="tools">
+      <div class="trust-items">
+        <span>✦ Creators</span>
+        <span>◈ Students</span>
+        <span>◇ Freelancers</span>
+        <span>✧ Businesses</span>
+        <span>○ Everyone</span>
+      </div>
+    </section>
+
+
+    <!-- TOOLS -->
+    <section id="tools" class="section">
 
       <div class="section-heading">
-
         <div>
-          <span class="section-label">EXPLORE</span>
-
-          <h2>
-            Tools that get things done.
-          </h2>
+          <span class="section-label">EXPLORE TOOLNEST</span>
+          <h2>Tools that get things done.</h2>
         </div>
 
         <p>
-          Pick a tool when you already know what you need.
+          Simple AI tools designed to turn your ideas
+          into something useful.
         </p>
-
       </div>
 
 
       <div class="tools-grid">
 
-
-        <article class="tool-card featured-tool">
-
-          <div class="tool-icon">✍️</div>
-
-          <div class="tool-content">
-
-            <span class="tool-category">WRITE</span>
-
-            <h3>Caption Generator</h3>
-
-            <p>
-              Turn a simple idea into an engaging social caption.
-            </p>
-
-            <a href="#caption-tool">
-              Try tool →
-            </a>
-
-          </div>
-
+        <article class="tool-card card-purple">
+          <div class="tool-icon">✍</div>
+          <span class="tool-tag">WRITING</span>
+          <h3>Caption Generator</h3>
+          <p>Create engaging captions for Facebook, Instagram and more.</p>
+          <a href="#one-box">Try it <span>→</span></a>
         </article>
 
-
-        <article class="tool-card">
-
-          <div class="tool-icon">📝</div>
-
-          <div class="tool-content">
-
-            <span class="tool-category">WRITE</span>
-
-            <h3>Text Summarizer</h3>
-
-            <p>
-              Make long text shorter and easier to understand.
-            </p>
-
-            <a href="#summary-tool">
-              Try tool →
-            </a>
-
-          </div>
-
+        <article class="tool-card card-blue">
+          <div class="tool-icon">◫</div>
+          <span class="tool-tag">TEXT</span>
+          <h3>Text Summarizer</h3>
+          <p>Turn long content into short, clear and useful summaries.</p>
+          <a href="#one-box">Try it <span>→</span></a>
         </article>
 
-
-        <article class="tool-card">
-
-          <div class="tool-icon">🎬</div>
-
-          <div class="tool-content">
-
-            <span class="tool-category">CREATE</span>
-
-            <h3>Video Hook Generator</h3>
-
-            <p>
-              Create stronger opening ideas for your videos.
-            </p>
-
-            <a href="#hook-tool">
-              Try tool →
-            </a>
-
-          </div>
-
+        <article class="tool-card card-pink">
+          <div class="tool-icon">▶</div>
+          <span class="tool-tag">VIDEO</span>
+          <h3>Video Hook Generator</h3>
+          <p>Create opening lines designed to grab attention quickly.</p>
+          <a href="#one-box">Try it <span>→</span></a>
         </article>
 
-
-        <article class="tool-card">
-
-          <div class="tool-icon">💼</div>
-
-          <div class="tool-content">
-
-            <span class="tool-category">BUSINESS</span>
-
-            <h3>Business Name Ideas</h3>
-
-            <p>
-              Find fresh name directions for your next business.
-            </p>
-
-            <a href="#name-tool">
-              Try tool →
-            </a>
-
-          </div>
-
+        <article class="tool-card card-orange">
+          <div class="tool-icon">✦</div>
+          <span class="tool-tag">BUSINESS</span>
+          <h3>Business Name Ideas</h3>
+          <p>Generate memorable names for your next business or brand.</p>
+          <a href="#one-box">Try it <span>→</span></a>
         </article>
 
-
-        <article class="tool-card coming-tool">
-
-          <div class="tool-icon">📧</div>
-
-          <div class="tool-content">
-
-            <span class="tool-category">COMING NEXT</span>
-
-            <h3>Email Writer</h3>
-
-            <p>
-              Turn your idea into a clear, professional email.
-            </p>
-
-            <span class="coming-label">
-              Coming soon
-            </span>
-
-          </div>
-
+        <article class="tool-card card-green">
+          <div class="tool-icon">@</div>
+          <span class="tool-tag">COMMUNICATION</span>
+          <h3>Email Writer</h3>
+          <p>Create professional emails without staring at a blank page.</p>
+          <a href="#one-box">Try it <span>→</span></a>
         </article>
 
-
-        <article class="tool-card coming-tool">
-
-          <div class="tool-icon">📱</div>
-
-          <div class="tool-content">
-
-            <span class="tool-category">COMING NEXT</span>
-
-            <h3>Social Post Generator</h3>
-
-            <p>
-              Create ready-to-use social media content faster.
-            </p>
-
-            <span class="coming-label">
-              Coming soon
-            </span>
-
-          </div>
-
+        <article class="tool-card card-cyan">
+          <div class="tool-icon">#</div>
+          <span class="tool-tag">SOCIAL</span>
+          <h3>Social Post Generator</h3>
+          <p>Turn simple ideas into ready-to-use social media posts.</p>
+          <a href="#one-box">Try it <span>→</span></a>
         </article>
-
-      </div>
-
-
-      <div class="view-all-wrap">
-
-        <a href="#" class="outline-btn">
-          View all tools →
-        </a>
 
       </div>
 
     </section>
 
 
-    <!-- ================= SMART SECTION ================= -->
-
-    <section class="smart-section">
+    <!-- SMART SECTION -->
+    <section id="one-box" class="smart-section">
 
       <div class="smart-card">
 
         <div class="smart-content">
-
-          <span class="section-label">
-            THE TOOLNEST WAY
-          </span>
+          <span class="section-label">THE SMART WAY</span>
 
           <h2>
-            Not sure which tool you need?
+            Don't know which tool
+            you need?
           </h2>
 
           <p>
-            You don't need to know the name of the tool.
-            Just describe the problem. ToolNest will help
-            point you in the right direction.
+            That's exactly why we built One Box.
+            Describe your goal in your own words and
+            ToolNest can point you in the right direction.
           </p>
 
-          <button
-            class="primary-btn"
-            onclick="focusOneBox()"
-          >
-            Try One Box →
+          <button class="primary-button" type="button" onclick="focusOneBox()">
+            Try One Box <span>→</span>
           </button>
-
         </div>
 
+        <div class="smart-visual">
 
-        <div class="smart-example">
-
-          <div class="example-label">
-            YOU SAY
-          </div>
-
-          <div class="example-message">
-            “My restaurant's Facebook page
-            isn't getting enough engagement.”
-          </div>
-
-          <div class="example-label result-label">
-            TOOLNEST SUGGESTS
-          </div>
-
-          <div class="suggestion-card">
-            <span>📱</span>
+          <div class="floating-card floating-one">
+            <span>✦</span>
             <div>
-              <strong>Social Post Generator</strong>
-              <small>Create better content ideas</small>
+              <small>YOUR IDEA</small>
+              <strong>Need a catchy post...</strong>
             </div>
           </div>
 
-          <div class="suggestion-card">
-            <span>🔥</span>
+          <div class="smart-arrow">↓</div>
+
+          <div class="floating-card floating-two">
+            <span>✧</span>
             <div>
-              <strong>Content Ideas</strong>
-              <small>Find new post directions</small>
+              <small>TOOLNEST</small>
+              <strong>Social Post Generator</strong>
             </div>
           </div>
 
@@ -413,79 +272,39 @@
     </section>
 
 
-    <!-- ================= SOLUTIONS ================= -->
-
-    <section class="section" id="solutions">
+    <!-- SOLUTIONS -->
+    <section id="solutions" class="section">
 
       <div class="section-heading centered">
-
-        <span class="section-label">
-          MADE FOR REAL LIFE
-        </span>
-
-        <h2>
-          One place. Many ways to work smarter.
-        </h2>
-
-        <p>
-          Whether you create content, run a business,
-          or just need to get something done.
-        </p>
-
+        <span class="section-label">MADE FOR YOU</span>
+        <h2>Whatever you're working on.</h2>
+        <p>One place for the small tasks that slow you down.</p>
       </div>
-
 
       <div class="solutions-grid">
 
         <div class="solution-card">
-
-          <span>👤</span>
-
-          <h3>For You</h3>
-
-          <p>
-            Write, summarize, rewrite and organize everyday tasks.
-          </p>
-
-        </div>
-
-
-        <div class="solution-card">
-
-          <span>💻</span>
-
-          <h3>For Work</h3>
-
-          <p>
-            Emails, resumes, communication and productivity tools.
-          </p>
-
-        </div>
-
-
-        <div class="solution-card">
-
-          <span>🎨</span>
-
+          <div class="solution-number">01</div>
           <h3>For Creators</h3>
-
-          <p>
-            Captions, hooks, social posts and content ideas.
-          </p>
-
+          <p>Hooks, captions, content ideas and social posts.</p>
         </div>
 
+        <div class="solution-card">
+          <div class="solution-number">02</div>
+          <h3>For Work</h3>
+          <p>Emails, summaries, rewriting and everyday communication.</p>
+        </div>
 
         <div class="solution-card">
+          <div class="solution-number">03</div>
+          <h3>For Business</h3>
+          <p>Names, descriptions, ads and customer communication.</p>
+        </div>
 
-          <span>🏪</span>
-
-          <h3>For Small Business</h3>
-
-          <p>
-            Names, descriptions, marketing and customer communication.
-          </p>
-
+        <div class="solution-card">
+          <div class="solution-number">04</div>
+          <h3>For Students</h3>
+          <p>Summaries, ideas, rewriting and study assistance.</p>
         </div>
 
       </div>
@@ -493,67 +312,36 @@
     </section>
 
 
-    <!-- ================= HOW IT WORKS ================= -->
-
-    <section class="section how-section">
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="section how-section">
 
       <div class="section-heading centered">
-
-        <span class="section-label">
-          SIMPLE BY DESIGN
-        </span>
-
-        <h2>
-          Three steps. That's it.
-        </h2>
-
+        <span class="section-label">HOW IT WORKS</span>
+        <h2>Simple by design.</h2>
       </div>
-
 
       <div class="steps">
 
         <div class="step">
-
           <div class="step-number">01</div>
-
           <h3>Tell us</h3>
-
-          <p>
-            Describe what you want to create or solve.
-          </p>
-
+          <p>Describe what you want in normal words.</p>
         </div>
-
 
         <div class="step-line"></div>
 
-
         <div class="step">
-
           <div class="step-number">02</div>
-
-          <h3>Choose</h3>
-
-          <p>
-            Pick the tool or workflow that fits your task.
-          </p>
-
+          <h3>Find your tool</h3>
+          <p>ToolNest points you toward the right workflow.</p>
         </div>
-
 
         <div class="step-line"></div>
 
-
         <div class="step">
-
           <div class="step-number">03</div>
-
           <h3>Get it done</h3>
-
-          <p>
-            Create something useful and move on with your day.
-          </p>
-
+          <p>Create, improve and finish your work faster.</p>
         </div>
 
       </div>
@@ -561,91 +349,54 @@
     </section>
 
 
-    <!-- ================= PRICING ================= -->
+    <!-- PRICING -->
+    <section id="pricing" class="pricing-section">
 
-    <section class="section pricing-section" id="pricing">
-
-      <div class="pricing-box">
+      <div class="pricing-card">
 
         <div>
+          <span class="section-label">TOOLNEST PRO</span>
 
-          <span class="section-label">
-            START FREE
-          </span>
-
-          <h2>
-            Useful tools first.
-            <br>
-            More power when you need it.
-          </h2>
+          <h2>More tools. More possibilities.</h2>
 
           <p>
-            Start with free tools. Later, unlock advanced
-            AI features and premium resources.
+            Free tools are just the beginning.
+            Premium AI features are coming soon.
           </p>
-
         </div>
 
-
-        <div class="price-card">
-
-          <span class="price-badge">
-            COMING SOON
-          </span>
-
-          <h3>
-            ToolNest Pro
-          </h3>
-
-          <div class="price">
-            $5<span>/month</span>
-          </div>
-
-          <ul>
-
-            <li>✓ Advanced AI tools</li>
-            <li>✓ More usage</li>
-            <li>✓ Saved history</li>
-            <li>✓ Premium resources</li>
-
-          </ul>
-
-          <button class="primary-btn" onclick="showComingSoon()">
-            Coming Soon
-          </button>
-
+        <div class="price">
+          <span>$</span>5<small>/month</small>
         </div>
+
+        <button class="primary-button disabled-button" type="button">
+          Coming soon
+        </button>
 
       </div>
 
     </section>
 
 
-    <!-- ================= FINAL CTA ================= -->
-
+    <!-- FINAL CTA -->
     <section class="final-cta">
 
       <div class="cta-glow"></div>
 
-      <span class="section-label">
-        TOOLNEST AI
-      </span>
+      <span class="section-label">READY?</span>
 
       <h2>
-        Have a task?
-        <br>
-        Let's get it done.
+        Your next idea starts
+        <span>here.</span>
       </h2>
 
       <p>
-        Start with one simple question.
+        Stop searching for the right tool.
+        Just tell ToolNest what you need.
       </p>
 
-      <button
-        class="primary-btn large-btn"
-        onclick="focusOneBox()"
-      >
-        Try ToolNest Free →
+      <button class="primary-button large-button" type="button" onclick="focusOneBox()">
+        Start with One Box <span>→</span>
       </button>
 
     </section>
@@ -653,42 +404,33 @@
   </main>
 
 
-  <!-- ================= FOOTER ================= -->
+  <!-- FOOTER -->
+  <footer class="footer">
 
-  <footer>
+    <div class="footer-main">
 
-    <div class="footer-container">
+      <a href="#" class="logo">
+        <span class="logo-icon">✦</span>
+        <span>ToolNest<span class="logo-ai">AI</span></span>
+      </a>
 
-      <div class="footer-brand">
-
-        <a href="#" class="logo">
-          ToolNest<span>AI</span>
-        </a>
-
-        <p>
-          One box. Any task.
-        </p>
-
-      </div>
-
+      <p>
+        One box. Any task.
+      </p>
 
       <div class="footer-links">
-
         <a href="#tools">Tools</a>
         <a href="#solutions">Solutions</a>
         <a href="#pricing">Pricing</a>
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
-
       </div>
 
     </div>
 
-
     <div class="footer-bottom">
-
-      © 2026 ToolNest AI. All rights reserved.
-
+      <span>© 2026 ToolNest AI</span>
+      <span>Built for everyone.</span>
     </div>
 
   </footer>
