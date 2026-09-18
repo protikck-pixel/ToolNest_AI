@@ -1,173 +1,267 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // =========================
-  // THEME
-  // =========================
+document.addEventListener("DOMContentLoaded", function () {
 
-  const themeToggle = document.getElementById("themeToggle");
+  /* =========================
+     THEME
+  ========================= */
+
   const body = document.body;
+  const themeToggle = document.getElementById("themeToggle");
 
   function updateThemeIcon() {
     if (!themeToggle) return;
 
-    const isDark = body.classList.contains("dark");
-    themeToggle.textContent = isDark ? "☀️" : "🌙";
-    themeToggle.setAttribute(
-      "aria-label",
-      isDark ? "Switch to light mode" : "Switch to dark mode"
-    );
+    if (body.classList.contains("dark")) {
+      themeToggle.textContent = "☀";
+      themeToggle.setAttribute("aria-label", "Switch to light mode");
+    } else {
+      themeToggle.textContent = "☾";
+      themeToggle.setAttribute("aria-label", "Switch to dark mode");
+    }
   }
 
   const savedTheme = localStorage.getItem("toolnest-theme");
 
   if (savedTheme === "dark") {
     body.classList.add("dark");
-  } else {
-    body.classList.remove("dark");
   }
 
   updateThemeIcon();
 
   if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
+    themeToggle.addEventListener("click", function () {
+
       body.classList.toggle("dark");
 
-      localStorage.setItem(
-        "toolnest-theme",
-        body.classList.contains("dark") ? "dark" : "light"
-      );
+      const newTheme = body.classList.contains("dark")
+        ? "dark"
+        : "light";
+
+      localStorage.setItem("toolnest-theme", newTheme);
 
       updateThemeIcon();
     });
   }
 
-  // =========================
-  // MOBILE MENU
-  // =========================
+
+  /* =========================
+     MOBILE MENU
+  ========================= */
 
   const menuToggle = document.getElementById("menuToggle");
   const mobileMenu = document.getElementById("mobileMenu");
 
   if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener("click", () => {
+
+    menuToggle.addEventListener("click", function (event) {
+
+      event.stopPropagation();
+
       mobileMenu.classList.toggle("open");
+
     });
 
-    mobileMenu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
+    mobileMenu.querySelectorAll("a").forEach(function (link) {
+
+      link.addEventListener("click", function () {
         mobileMenu.classList.remove("open");
       });
+
+    });
+
+    document.addEventListener("click", function (event) {
+
+      if (
+        mobileMenu.classList.contains("open") &&
+        !mobileMenu.contains(event.target) &&
+        !menuToggle.contains(event.target)
+      ) {
+        mobileMenu.classList.remove("open");
+      }
+
     });
   }
 
-  // =========================
-  // ONE BOX
-  // =========================
+
+  /* =========================
+     ONE BOX
+  ========================= */
 
   const oneBoxInput = document.getElementById("oneBoxInput");
   const oneBoxButton = document.getElementById("oneBoxButton");
   const oneBoxResult = document.getElementById("oneBoxResult");
 
-  const suggestions = document.querySelectorAll("[data-suggestion]");
+  const suggestionButtons =
+    document.querySelectorAll("[data-suggestion]");
 
-  suggestions.forEach((button) => {
-    button.addEventListener("click", () => {
-      const text = button.getAttribute("data-suggestion");
 
-      if (oneBoxInput) {
-        oneBoxInput.value = text;
-        oneBoxInput.focus();
-      }
+  /* Suggestions */
+
+  suggestionButtons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+      const suggestion =
+        button.getAttribute("data-suggestion");
+
+      if (!oneBoxInput) return;
+
+      oneBoxInput.value = suggestion;
+
+      oneBoxInput.focus();
+
     });
+
   });
 
-  function escapeHTML(text) {
-    const div = document.createElement("div");
-    div.textContent = text;
-    return div.innerHTML;
+
+  /* Escape HTML */
+
+  function escapeHTML(value) {
+
+    const element = document.createElement("div");
+
+    element.textContent = value;
+
+    return element.innerHTML;
+
   }
 
-  function handleOneBox() {
+
+  /* One Box engine */
+
+  function runOneBox() {
+
     if (!oneBoxInput || !oneBoxResult) return;
 
     const request = oneBoxInput.value.trim();
 
     if (!request) {
+
       oneBoxResult.innerHTML = `
         <div class="result-inner">
-          <strong>Tell me what you need.</strong>
-          <p>For example: “Write a Facebook caption for my restaurant.”</p>
+          <span class="result-label">TOOLNEST</span>
+          <h3>Tell me what you need.</h3>
+          <p>
+            Try something like:
+            "Write a Facebook caption for my restaurant."
+          </p>
         </div>
       `;
 
       oneBoxResult.classList.add("show");
+
       return;
     }
 
+
     const text = request.toLowerCase();
 
-    let toolName = "ToolNest Assistant";
-    let message =
-      "I understand what you need. ToolNest will help you find the right tool for this task.";
+    let tool = "ToolNest Assistant";
+
+    let description =
+      "Your request has been understood. ToolNest will help you find the right workflow.";
+
 
     if (
       text.includes("caption") ||
-      text.includes("facebook caption") ||
-      text.includes("instagram caption")
+      text.includes("instagram") ||
+      text.includes("facebook post")
     ) {
-      toolName = "Caption Generator";
-      message =
-        "Your request matches our Caption Generator. We can create engaging captions for Facebook, Instagram and other social platforms.";
-    } else if (
+
+      tool = "Caption Generator";
+
+      description =
+        "Create engaging captions for Facebook, Instagram and other social platforms.";
+
+    }
+
+    else if (
       text.includes("summarize") ||
       text.includes("summary") ||
-      text.includes("shorten this")
+      text.includes("summarise")
     ) {
-      toolName = "Text Summarizer";
-      message =
-        "Your request matches our Text Summarizer. It can turn long text into a clear and shorter version.";
-    } else if (
+
+      tool = "Text Summarizer";
+
+      description =
+        "Turn long content into a shorter, clearer and easier-to-read summary.";
+
+    }
+
+    else if (
       text.includes("email") ||
-      text.includes("mail") ||
-      text.includes("email me")
+      text.includes("mail")
     ) {
-      toolName = "Email Writer";
-      message =
-        "Your request matches our Email Writer. It can help you create a professional email quickly.";
-    } else if (
+
+      tool = "Email Writer";
+
+      description =
+        "Create a professional email from your simple instructions.";
+
+    }
+
+    else if (
       text.includes("hook") ||
-      text.includes("video hook") ||
-      text.includes("youtube hook")
+      text.includes("youtube") ||
+      text.includes("video")
     ) {
-      toolName = "Video Hook Generator";
-      message =
-        "Your request matches our Video Hook Generator. It can help create attention-grabbing opening lines for videos.";
-    } else if (
+
+      tool = "Video Hook Generator";
+
+      description =
+        "Create attention-grabbing opening lines for your videos.";
+
+    }
+
+    else if (
       text.includes("business name") ||
       text.includes("company name") ||
       text.includes("brand name")
     ) {
-      toolName = "Business Name Generator";
-      message =
-        "Your request matches our Business Name Generator. It can help generate memorable business and brand names.";
-    } else if (
-      text.includes("social post") ||
-      text.includes("social media post") ||
-      text.includes("linkedin post")
-    ) {
-      toolName = "Social Media Post Generator";
-      message =
-        "Your request matches our Social Media Post Generator. It can help turn your idea into a ready-to-use social post.";
+
+      tool = "Business Name Generator";
+
+      description =
+        "Generate memorable ideas for your business or brand.";
+
     }
+
+    else if (
+      text.includes("social") ||
+      text.includes("linkedin")
+    ) {
+
+      tool = "Social Media Post Generator";
+
+      description =
+        "Turn your idea into a ready-to-use social media post.";
+
+    }
+
 
     oneBoxResult.innerHTML = `
       <div class="result-inner">
-        <span class="result-label">SUGGESTED TOOL</span>
-        <h3>${escapeHTML(toolName)}</h3>
-        <p>${escapeHTML(message)}</p>
+
+        <span class="result-label">
+          SUGGESTED TOOL
+        </span>
+
+        <h3>${escapeHTML(tool)}</h3>
+
+        <p>
+          ${escapeHTML(description)}
+        </p>
+
         <div class="result-request">
+
           <strong>Your request:</strong>
-          <span>${escapeHTML(request)}</span>
+
+          <span>
+            ${escapeHTML(request)}
+          </span>
+
         </div>
+
       </div>
     `;
 
@@ -177,48 +271,81 @@ document.addEventListener("DOMContentLoaded", () => {
       behavior: "smooth",
       block: "nearest"
     });
+
   }
+
+
+  /* Ask button */
 
   if (oneBoxButton) {
-    oneBoxButton.addEventListener("click", handleOneBox);
+
+    oneBoxButton.addEventListener("click", function () {
+      runOneBox();
+    });
+
   }
+
+
+  /* Enter key */
 
   if (oneBoxInput) {
-    oneBoxInput.addEventListener("keydown", (event) => {
+
+    oneBoxInput.addEventListener("keydown", function (event) {
+
       if (event.key === "Enter") {
+
         event.preventDefault();
-        handleOneBox();
+
+        runOneBox();
+
       }
+
     });
+
   }
 
-  // =========================
-  // KEYBOARD SHORTCUT
-  // =========================
 
-  document.addEventListener("keydown", (event) => {
-    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+  /* =========================
+     FOCUS ONE BOX
+  ========================= */
+
+  window.focusOneBox = function () {
+
+    const heroBox = document.getElementById("oneBoxInput");
+
+    if (!heroBox) return;
+
+    heroBox.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+    setTimeout(function () {
+      heroBox.focus();
+    }, 500);
+
+  };
+
+
+  /* =========================
+     CTRL + K
+  ========================= */
+
+  document.addEventListener("keydown", function (event) {
+
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      event.key.toLowerCase() === "k"
+    ) {
+
       event.preventDefault();
 
       if (oneBoxInput) {
         oneBoxInput.focus();
       }
+
     }
+
   });
 
-  // =========================
-  // CLOSE MOBILE MENU
-  // =========================
-
-  document.addEventListener("click", (event) => {
-    if (!mobileMenu || !menuToggle) return;
-
-    if (
-      mobileMenu.classList.contains("open") &&
-      !mobileMenu.contains(event.target) &&
-      !menuToggle.contains(event.target)
-    ) {
-      mobileMenu.classList.remove("open");
-    }
-  });
 });
