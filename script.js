@@ -1,180 +1,103 @@
-const canvas = document.getElementById('neuralCanvas');
-const ctx = canvas.getContext('2d');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolNest AI — Universal Multi-Model Workspace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-let width, height;
-let particles = [];
-let mouse = { x: null, y: null, targetX: null, targetY: null, radius: 180 };
-let activeTheme = 'dark';
+    <!-- 4D Royal Gold Canvas Background Layer -->
+    <div id="canvas-container">
+        <canvas id="neuralCanvas"></canvas>
+    </div>
 
-// 4D Parallax Multi-layer Configuration
-const LAYER_COUNT = 3; 
-const PARTICLE_COUNT = 90;
-
-function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resize);
-resize();
-
-// Track mouse coordinate offsets for smooth inertia
-window.addEventListener('mousemove', (e) => {
-    mouse.targetX = e.clientX;
-    mouse.targetY = e.clientY;
-});
-
-window.addEventListener('mouseleave', () => {
-    mouse.targetX = null;
-    mouse.targetY = null;
-});
-
-class Particle {
-    constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        // Layer assigns depth (1 to 3). Higher layer = closer, larger, faster
-        this.layer = Math.floor(Math.random() * LAYER_COUNT) + 1; 
-        this.radius = this.layer * 1.2;
-        this.baseSpeedX = (Math.random() - 0.5) * (this.layer * 0.4);
-        this.baseSpeedY = (Math.random() - 0.5) * (this.layer * 0.4);
-        this.vx = this.baseSpeedX;
-        this.vy = this.baseSpeedY;
-        
-        // For animated data stream tracking
-        this.streamProgress = Math.random();
-        this.streamSpeed = 0.005 + (Math.random() * 0.005);
-    }
-
-    update() {
-        // Smooth Mouse Inertia Mapping for 4D Parallax
-        if (mouse.x !== null && mouse.targetX !== null) {
-            // Parallax structural offset based on depth layer weight
-            const depthFactor = this.layer * 0.15;
-            const dx = mouse.x - width / 2;
-            const dy = mouse.y - height / 2;
+    <!-- Main Layout Architecture -->
+    <div class="page-wrapper">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">🧠</span> ToolNest<span class="gold-text">AI</span>
+            </div>
             
-            this.x += this.vx - (dx * depthFactor * 0.01);
-            this.y += this.vy - (dy * depthFactor * 0.01);
-        } else {
-            this.x += this.vx;
-            this.y += this.vy;
-        }
+            <div class="header-controls">
+                <!-- Advanced Multi-Language Swapper -->
+                <select id="langSelector" class="lang-dropdown">
+                    <option value="en">🌐 English</option>
+                    <option value="bn">🌐 বাংলা</option>
+                    <option value="es">🌐 Español</option>
+                    <option value="fr">🌐 Français</option>
+                </select>
+                <button class="theme-toggle" id="themeBtn">🌙 Dark Mode</button>
+            </div>
+        </header>
 
-        // Screen boundaries warp loop
-        if (this.x < 0) this.x = width;
-        if (this.x > width) this.x = 0;
-        if (this.y < 0) this.y = height;
-        if (this.y > height) this.y = 0;
+        <section class="hero">
+            <div class="neural-core-glow"></div>
+            <h1 id="heroTitle">Universal AI Hub.<br>One Search, All Engines.</h1>
+            <p id="heroSubtitle">An advanced, multi-agent framework that auto-detects your intent to generate copy, precise code, or ultra-realistic graphics instantly.</p>
+            
+            <!-- Universal Input Matrix -->
+            <div class="workspace-container">
+                <select id="modelAgent" class="agent-dropdown">
+                    <option value="text">🧠 Text Cognition Agent (Gemini)</option>
+                    <option value="image">🎨 Creative Vision Agent (Flux)</option>
+                    <option value="research">🌐 Deep Web Research Node</option>
+                </select>
+                <textarea class="input-box" id="aiPrompt" rows="3" placeholder="Ask anything..."></textarea>
+                <div class="action-row">
+                    <div class="quick-tags" id="tagContainer">
+                        <button class="tag" onclick="setQuickPrompt('Write a premium blog outline about AI automation')">✦ Write Copy</button>
+                        <button class="tag" onclick="setQuickPrompt('Generate a highly realistic cybernetic brain neon core photo')">🎨 Generate Art</button>
+                    </div>
+                    <button class="submit-btn" id="generateBtn">Ask AI →</button>
+                </div>
+            </div>
 
-        // Neural streams progression tick
-        this.streamProgress += this.streamSpeed;
-        if (this.streamProgress > 1) {
-            this.streamProgress = 0;
-        }
-    }
+            <!-- Smart Response Node Display (Mac-Style Window) -->
+            <div class="output-container hidden" id="outputWindow">
+                <div class="output-header">
+                    <div class="window-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="active-agent-badge" id="agentBadge">🤖 System Core Active</div>
+                </div>
+                <div class="output-content" id="outputBody"></div>
+            </div>
+        </section>
 
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = activeTheme === 'dark' 
-            ? `rgba(0, 242, 254, ${0.2 * this.layer})` 
-            : `rgba(59, 130, 246, ${0.2 * this.layer})`;
-        ctx.fill();
-    }
-}
+        <!-- Premium SaaS Pricing Matrix -->
+        <section class="pricing-section">
+            <h2 id="pricingTitle">Flexible Plans for Global Scaling</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Starter</h3>
+                    <div class="price">$0<span>/mo</span></div>
+                    <p class="desc">Perfect for testing the AI cores.</p>
+                    <ul>
+                        <li>3 Free Synapses / Day</li>
+                        <li>Standard Text Engine</li>
+                    </ul>
+                    <button class="price-btn">Current Plan</button>
+                </div>
+                <div class="price-card popular">
+                    <div class="badge">Popular</div>
+                    <h3>Pro Node</h3>
+                    <div class="price">$9<span>/mo</span></div>
+                    <p class="desc">Accelerate output with infinite scalability.</p>
+                    <ul>
+                        <li>Unlimited Text Generations</li>
+                        <li>1,000 HD Image Credits</li>
+                        <li>Priority Server Routing</li>
+                    </ul>
+                    <button class="price-btn gold-btn">Upgrade with Stripe</button>
+                </div>
+            </div>
+        </section>
+    </div>
 
-function init() {
-    particles = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particles.push(new Particle());
-    }
-}
-
-function drawConnections() {
-    // Match line styling dynamically to UI state variables
-    let lineColor = activeTheme === 'dark' ? '0, 242, 254' : '59, 130, 246';
-    let streamColor = activeTheme === 'dark' ? '#7f00ff' : '#9333ea';
-
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            // Only connect nodes residing on compatible structural layers
-            if (Math.abs(particles[i].layer - particles[j].layer) <= 1) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                let maxDist = 130 + (particles[i].layer * 20);
-
-                if (dist < maxDist) {
-                    let alpha = (1 - dist / maxDist) * 0.15;
-                    ctx.strokeStyle = `rgba(${lineColor}, ${alpha})`;
-                    ctx.lineWidth = 0.5 * (particles[i].layer * 0.5);
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-
-                    // Render flowing live data processing nodes on lines
-                    if (dist < maxDist - 30 && i % 3 === 0) {
-                        let p1 = particles[i];
-                        let p2 = particles[j];
-                        // Interpolated point based on stream progress metrics
-                        let cx = p1.x + (p2.x - p1.x) * p1.streamProgress;
-                        let cy = p1.y + (p2.y - p1.y) * p1.streamProgress;
-
-                        ctx.beginPath();
-                        ctx.arc(cx, cy, 1.5, 0, Math.PI * 2);
-                        ctx.fillStyle = streamColor;
-                        ctx.shadowBlur = 4;
-                        ctx.shadowColor = streamColor;
-                        ctx.fill();
-                        ctx.shadowBlur = 0; // reset
-                    }
-                }
-            }
-        }
-    }
-}
-
-function animate() {
-    ctx.clearRect(0, 0, width, height);
-
-    // Smooth interpolation for mouse responsiveness
-    if (mouse.targetX !== null) {
-        if (mouse.x === null) {
-            mouse.x = mouse.targetX;
-            mouse.y = mouse.targetY;
-        } else {
-            mouse.x += (mouse.targetX - mouse.x) * 0.08;
-            mouse.y += (mouse.targetY - mouse.y) * 0.08;
-        }
-    } else {
-        mouse.x = null;
-        mouse.y = null;
-    }
-
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-
-    drawConnections();
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();
-
-// Theme Toggle Controller Node logic
-const themeBtn = document.getElementById('themeBtn');
-themeBtn.addEventListener('click', () => {
-    if (activeTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        themeBtn.innerText = '☀️ Light Mode';
-        activeTheme = 'light';
-    } else {
-        document.documentElement.removeAttribute('data-theme');
-        themeBtn.innerText = '🌙 Dark Mode';
-        activeTheme = 'dark';
-    }
-});
+    <script src="script.js"></script>
+</body>
+</html>
