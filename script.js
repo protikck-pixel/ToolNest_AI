@@ -1,12 +1,3 @@
-// ==========================================
-// CORE UNIVERSAL CONTROL MANAGEMENT ENGINES
-// ==========================================
-
-// GitHub Scanner Bypass Matrix - Key Reconstruction Node
-const part1 = "AQ.Ab8RN6JYrDKL3rjeJbe-";
-const part2 = "TycxIBU5Xm4pxumcKJp9JOugE0445w";
-const GEMINI_API_KEY = part1 + part2;
-
 const canvas = document.getElementById('neuralCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -15,7 +6,7 @@ let mouse = { x: null, y: null, targetX: null, targetY: null, radius: 180 };
 let activeTheme = 'dark';
 let processingSpeedMultiplier = 1;
 
-// Language Multi-Localization Database Matrix
+// Language Localization System Database Matrix
 const translations = {
     en: {
         title: "Universal AI Hub.<br>One Search, All Engines.",
@@ -44,7 +35,7 @@ const translations = {
         placeholder: "যেকোনো কিছু জিজ্ঞাসা করুন... যেমন: 'একটি ব্যবসায়িক আইডিয়া দাও' বা 'পাখির বাসার ছবি তৈরি করো'",
         pricing: "গ্লোবাল স্কেলিংয়ের জন্য ফ্লেক্সিবল প্ল্যানসমূহ",
         btn: "জিজ্ঞাসা করুন →",
-        tagCopy: "✦ রাইটিং কপি",
+        tagCopy: "✦ রাইটিং কবি",
         tagArt: "🎨 আর্ট জেনারেট",
         planStarterTitle: "স্টার্টার প্যাক",
         planStarterDesc: "এআই কোডগুলো ফ্রিতে টেস্ট করার জন্য পারফেক্ট।",
@@ -56,55 +47,13 @@ const translations = {
         planProDesc: "আনলিমিটেড এআই পাওয়ার ও হাই-স্পিড জেনারেশন।",
         featurePro1: "আনলিমিটেড টেক্সট জেনারেশন",
         featurePro2: "১,০০০টি এইচডি ইমেজ ক্রেডিট",
-        featurePro3: "প্রায়োরিটি সার্ভার রাউটিং",
+        featurePro3: "priority সার্ভার রাউটিং",
         btnPro: "বিকাশ / স্ট্রাইপ দিয়ে কিনুন"
-    },
-    es: {
-        title: "Hub de IA Universal.<br>Una Búsqueda, Todo.",
-        subtitle: "Un marco avanzado de múltiples agentes que detecta automáticamente su intención para generar copias, códigos precisos o gráficos ultrarrealistas.",
-        placeholder: "Pregunta lo que sea... Pruebe 'Escribir un ensayo' o 'Crear una foto de núcleo de oro'",
-        pricing: "Planes Flexibles para Escalamiento Global",
-        btn: "Preguntar →",
-        tagCopy: "✦ Escribir texto",
-        tagArt: "🎨 Generar arte",
-        planStarterTitle: "Iniciación",
-        planStarterDesc: "Perfecto para probar los núcleos de IA.",
-        featureStarter1: "3 búsquedas gratuitas al día",
-        featureStarter2: "Motor de texto estándar",
-        btnStarter: "Plan actual",
-        badgePopular: "Popular",
-        planProTitle: "Nodo Pro",
-        planProDesc: "Acelere el rendimiento con escalabilidad infinita.",
-        featurePro1: "Generaciones de texto ilimitadas",
-        featurePro2: "1.000 créditos de imagen HD",
-        featurePro3: "Enrutamiento prioritario del servidor",
-        btnPro: "Actualizar con Stripe"
-    },
-    fr: {
-        title: "Hub IA Universel.<br>Une Recherche, Tous les Moteurs.",
-        subtitle: "Un framework multi-agent avancé qui détecte automatiquement votre intention pour générer du texte, du code précis ou des graphiques ultra-réalistes.",
-        placeholder: "Demandez n'importe quoi... Essayez 'Écrire un article' ou 'Générer une photo de noyau d'or'",
-        pricing: "Tarification Flexible pour l'Échelle Globale",
-        btn: "Demander →",
-        tagCopy: "✦ Rédiger du texte",
-        tagArt: "🎨 Créer de l'art",
-        planStarterTitle: "Démarrage",
-        planStarterDesc: "Parfait pour tester les moteurs d'IA.",
-        featureStarter1: "3 requêtes gratuites par jour",
-        featureStarter2: "Moteur de texte standard",
-        btnStarter: "Plan actuel",
-        badgePopular: "Populaire",
-        planProTitle: "Nœud Pro",
-        planProDesc: "Accélérez la production avec une évolutivité infinie.",
-        featurePro1: "Générations de texte illimitées",
-        featurePro2: "1 000 crédits d'image HD",
-        featurePro3: "Routage de serveur prioritaire",
-        btnPro: "Mettre à niveau avec Stripe"
     }
 };
 
 // ==========================================
-// BACKGROUND ENGINES: GOLD SYNAPSE CANVAS
+// PURE 4D HIGH-FIDELITY PARTICLE CANVAS LOOP
 // ==========================================
 function resize() {
     width = canvas.width = window.innerWidth;
@@ -121,19 +70,19 @@ class Particle {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.layer = Math.floor(Math.random() * 3) + 1; 
-        this.radius = this.layer * 1.3;
-        this.vx = (Math.random() - 0.5) * (this.layer * 0.4);
-        this.vy = (Math.random() - 0.5) * (this.layer * 0.4);
+        this.radius = this.layer * 1.5;
+        this.vx = (Math.random() - 0.5) * (this.layer * 0.5);
+        this.vy = (Math.random() - 0.5) * (this.layer * 0.5);
         this.streamProgress = Math.random();
-        this.streamSpeed = 0.005 + (Math.random() * 0.005);
+        this.streamSpeed = 0.006 + (Math.random() * 0.006);
     }
     update() {
         let cvx = this.vx * processingSpeedMultiplier;
         let cvy = this.vy * processingSpeedMultiplier;
         if (mouse.x !== null) {
-            const depth = this.layer * 0.15;
-            this.x += cvx - ((mouse.x - width / 2) * depth * 0.01);
-            this.y += cvy - ((mouse.y - height / 2) * depth * 0.01);
+            const depth = this.layer * 0.25;
+            this.x += cvx - ((mouse.x - width / 2) * depth * 0.008);
+            this.y += cvy - ((mouse.y - height / 2) * depth * 0.008);
         } else {
             this.x += cvx; this.y += cvy;
         }
@@ -145,30 +94,30 @@ class Particle {
     draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = activeTheme === 'dark' ? `rgba(212, 175, 55, ${0.15 * this.layer})` : `rgba(170, 132, 28, ${0.15 * this.layer})`;
+        ctx.fillStyle = activeTheme === 'dark' ? `rgba(251, 191, 36, ${0.2 * this.layer})` : `rgba(217, 119, 6, ${0.2 * this.layer})`;
         ctx.fill();
     }
 }
 
-for (let i = 0; i < 85; i++) particles.push(new Particle());
+for (let i = 0; i < 95; i++) particles.push(new Particle());
 
 function drawConnections() {
-    let lineColor = activeTheme === 'dark' ? '212, 175, 55' : '170, 132, 28';
+    let lineColor = activeTheme === 'dark' ? '251, 191, 36' : '217, 119, 6';
     for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
-            if (Math.abs(particles[i].layer - particles[j].layer) <= 1) {
+            if (particles[i].layer === particles[j].layer) {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                let maxDist = 140;
+                let maxDist = 150;
                 if (dist < maxDist) {
-                    ctx.strokeStyle = `rgba(${lineColor}, ${(1 - dist / maxDist) * 0.12})`;
-                    ctx.lineWidth = 0.5;
+                    ctx.strokeStyle = `rgba(${lineColor}, ${(1 - dist / maxDist) * 0.18})`;
+                    ctx.lineWidth = particles[i].layer * 0.4;
                     ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-                    if (dist < maxDist - 30 && i % 4 === 0) {
+                    if (dist < maxDist - 20 && i % 3 === 0) {
                         let cx = particles[i].x + (particles[j].x - particles[i].x) * particles[i].streamProgress;
                         let cy = particles[i].y + (particles[j].y - particles[i].y) * particles[i].streamProgress;
-                        ctx.beginPath(); ctx.arc(cx, cy, 1.5, 0, Math.PI * 2); ctx.fillStyle = '#ffdf7a'; ctx.fill();
+                        ctx.beginPath(); ctx.arc(cx, cy, 2, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
                     }
                 }
             }
@@ -180,7 +129,7 @@ function animate() {
     ctx.clearRect(0, 0, width, height);
     if (mouse.targetX !== null) {
         if (mouse.x === null) { mouse.x = mouse.targetX; mouse.y = mouse.targetY; }
-        else { mouse.x += (mouse.targetX - mouse.x) * 0.08; mouse.y += (mouse.targetY - mouse.y) * 0.08; }
+        else { mouse.x += (mouse.targetX - mouse.x) * 0.1; mouse.y += (mouse.targetY - mouse.y) * 0.1; }
     } else { mouse.x = null; mouse.y = null; }
     particles.forEach(p => { p.update(); p.draw(); });
     drawConnections();
@@ -189,13 +138,13 @@ function animate() {
 animate();
 
 // ==========================================
-// CORE PLATFORM DATA ROUTING & TRANSLATION
+// CORE TRANSLATION SYSTEM HANDLERS
 // ==========================================
 const langSelector = document.getElementById('langSelector');
 if(langSelector) {
     langSelector.addEventListener('change', (e) => {
         const lang = e.target.value;
-        const data = translations[lang];
+        const data = translations[lang] || translations['en'];
         
         document.getElementById('heroTitle').innerHTML = data.title;
         document.getElementById('heroSubtitle').innerText = data.subtitle;
@@ -207,3 +156,53 @@ if(langSelector) {
         document.getElementById('planStarterTitle').innerText = data.planStarterTitle;
         document.getElementById('planStarterDesc').innerText = data.planStarterDesc;
         document.getElementById('featureStarter1').innerText = data.featureStarter1;
+        document.getElementById('featureStarter2').innerText = data.featureStarter2;
+        document.getElementById('btnStarter').innerText = data.btnStarter;
+        if(document.getElementById('badgePopular')) document.getElementById('badgePopular').innerText = data.badgePopular;
+        document.getElementById('planProTitle').innerText = data.planProTitle;
+        document.getElementById('planProDesc').innerText = data.planProDesc;
+        document.getElementById('featurePro1').innerText = data.featurePro1;
+        document.getElementById('featurePro2').innerText = data.featurePro2;
+        document.getElementById('featurePro3').innerText = data.featurePro3;
+        document.getElementById('btnPro').innerText = data.btnPro;
+    });
+}
+
+function setQuickPrompt(text) {
+    document.getElementById('aiPrompt').value = text;
+    document.getElementById('aiPrompt').focus();
+}
+
+// ==========================================
+// SECURE AI ROUTING ENGINE
+// ==========================================
+document.getElementById('generateBtn').addEventListener('click', async () => {
+    const prompt = document.getElementById('aiPrompt').value.trim();
+    if (!prompt) return;
+
+    const outputWindow = document.getElementById('outputWindow');
+    const outputBody = document.getElementById('outputBody');
+    const agentBadge = document.getElementById('agentBadge');
+    const selectedMode = document.getElementById('modelAgent').value;
+
+    outputWindow.classList.remove('hidden');
+    outputBody.innerHTML = `<span class="ai-loading-pulse">⚡ Core Nodes spinning up. Streaming intelligence data array...</span>`;
+    processingSpeedMultiplier = 5; 
+
+    if (selectedMode === 'image') {
+        agentBadge.innerText = "🎨 Creative Vision Agent";
+        setTimeout(() => {
+            processingSpeedMultiplier = 1;
+            // High speed proxy render engine channel
+            const randomSeed = Math.floor(Math.random() * 100000);
+            outputBody.innerHTML = `
+                <p style="margin-bottom: 12px; color: var(--accent-color);">✦ Luxury Visual Architecture Render Compiled successfully:</p>
+                <img src="https://pollinations.ai{encodeURIComponent(prompt)}?width=800&height=500&nologo=true&seed=${randomSeed}" class="generated-image">
+            `;
+        }, 3000);
+    } else {
+        agentBadge.innerText = "🧠 Deep Cognition Agent";
+        try {
+            // Free Public Serverless Gateway (No Key Required Endpoint)
+            const response = await fetch(`https://pollinations.ai`, {
+                method: 'POST',
