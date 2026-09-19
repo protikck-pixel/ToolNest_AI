@@ -1,40 +1,40 @@
-/* Core Styling Matrix & Luxury Theme Protocols */
+/* Premium Luxury Dark Navy & Shining Gold CSS Framework */
 :root {
-    --bg-color: #060b19;
+    --bg-color: #030712;
     --text-color: #ffffff;
-    --accent-color: #d4af37;
-    --accent-glow: rgba(212, 175, 55, 0.35);
-    --core-glow: rgba(212, 175, 55, 0.15);
-    --card-bg: rgba(13, 23, 48, 0.6);
-    --card-border: rgba(212, 175, 55, 0.18);
-    --output-window-bg: rgba(8, 15, 33, 0.85);
-    --input-bg: rgba(4, 8, 18, 0.4);
+    --accent-color: #fbbf24;
+    --accent-glow: rgba(251, 191, 36, 0.4);
+    --core-glow: rgba(251, 191, 36, 0.15);
+    --card-bg: rgba(17, 24, 39, 0.65);
+    --card-border: rgba(251, 191, 36, 0.2);
+    --output-window-bg: rgba(17, 24, 39, 0.85);
+    --input-bg: rgba(31, 41, 55, 0.5);
 }
 
 [data-theme="light"] {
-    --bg-color: #fcfbfa;
-    --text-color: #0b132b;
-    --accent-color: #aa841c;
-    --accent-glow: rgba(170, 132, 28, 0.15);
-    --core-glow: rgba(13, 23, 48, 0.05);
-    --card-bg: rgba(255, 255, 255, 0.75);
-    --card-border: rgba(170, 132, 28, 0.2);
+    --bg-color: #f9fafb;
+    --text-color: #111827;
+    --accent-color: #d97706;
+    --accent-glow: rgba(217, 119, 6, 0.2);
+    --core-glow: rgba(31, 41, 55, 0.05);
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --card-border: rgba(217, 119, 6, 0.25);
     --output-window-bg: rgba(255, 255, 255, 0.9);
-    --input-bg: rgba(0, 0, 0, 0.03);
+    --input-bg: rgba(243, 244, 246, 0.8);
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     overflow-x: hidden;
-    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
+    transition: background-color 0.4s ease, color 0.4s ease;
     min-height: 100vh;
 }
 
@@ -46,6 +46,11 @@ body {
     height: 100vh;
     z-index: -1;
     pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, #0d1b3e 0%, #030712 100%);
+}
+
+[data-theme="light"] #canvas-container {
+    background: radial-gradient(circle at 50% 50%, #fef3c7 0%, #f9fafb 100%);
 }
 
 canvas {
@@ -69,23 +74,22 @@ header {
     padding: 20px 40px;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-radius: 20px;
     margin-top: 15px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .logo {
     font-weight: 800;
     font-size: 1.6rem;
     letter-spacing: 0.5px;
-    color: var(--text-color);
 }
 
 .logo .gold-text {
     color: var(--accent-color);
-    text-shadow: 0 0 12px var(--accent-glow);
+    text-shadow: 0 0 15px var(--accent-glow);
 }
 
 .header-controls {
@@ -103,12 +107,11 @@ header {
     outline: none;
     cursor: pointer;
     font-weight: 600;
-    backdrop-filter: blur(10px);
 }
 
 .theme-toggle {
     background: var(--accent-color);
-    color: #060b19;
+    color: #030712;
     border: none;
     padding: 10px 24px;
     border-radius: 12px;
@@ -119,7 +122,7 @@ header {
 
 .theme-toggle:hover {
     transform: scale(1.03);
-    box-shadow: 0 0 20px var(--accent-color);
+    box-shadow: 0 0 25px var(--accent-color);
 }
 
 .hero {
@@ -133,17 +136,17 @@ header {
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     background: radial-gradient(circle, var(--core-glow) 0%, rgba(0,0,0,0) 70%);
     z-index: -1;
     border-radius: 50%;
-    animation: corePulse 4s infinite ease-in-out;
+    animation: corePulse 3s infinite ease-in-out;
 }
 
 @keyframes corePulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
-    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    0%, 100__ { transform: translate(-50%, -50%) scale(0.95); opacity: 0.5; }
+    50__ { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
 }
 
 .hero h1 {
@@ -151,12 +154,20 @@ header {
     font-weight: 800;
     margin-bottom: 20px;
     line-height: 1.15;
-    letter-spacing: -1px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .hero h1 {
+    background: linear-gradient(135deg, #111827 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero p {
     font-size: 1.25rem;
-    opacity: 0.75;
+    opacity: 0.8;
     max-width: 700px;
     margin: 0 auto 40px auto;
     line-height: 1.6;
@@ -171,13 +182,7 @@ header {
     margin: 0 auto;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.workspace-container:focus-within {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 30px var(--accent-glow);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 
 .agent-dropdown {
@@ -189,7 +194,7 @@ header {
 .input-box {
     width: 100%;
     background: var(--input-bg);
-    border: 1px solid rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.15);
     padding: 18px;
     border-radius: 16px;
     color: var(--text-color);
@@ -207,15 +212,11 @@ header {
     gap: 15px;
 }
 
-.quick-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
+.quick-tags { display: flex; gap: 10px; }
 
 .tag {
-    background: rgba(212, 175, 55, 0.05);
-    border: 1px solid rgba(212, 175, 55, 0.15);
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.2);
     color: var(--text-color);
     padding: 8px 16px;
     border-radius: 30px;
@@ -226,12 +227,12 @@ header {
 
 .tag:hover {
     background: var(--accent-color);
-    color: #060b19;
+    color: #030712;
 }
 
 .submit-btn {
     background: var(--accent-color);
-    color: #060b19;
+    color: #030712;
     border: none;
     padding: 14px 32px;
     border-radius: 14px;
@@ -239,12 +240,12 @@ header {
     font-size: 1rem;
     cursor: pointer;
     box-shadow: 0 4px 20px var(--accent-glow);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 28px var(--accent-color);
+    box-shadow: 0 6px 30px var(--accent-color);
 }
 
 .output-container {
@@ -255,7 +256,7 @@ header {
     border-radius: 20px;
     overflow: hidden;
     backdrop-filter: blur(25px);
-    box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
     text-align: left;
 }
 
@@ -266,7 +267,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 15px 25px;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.3);
     border-bottom: 1px solid var(--card-border);
 }
 
@@ -277,7 +278,7 @@ header {
 .dot.green { background: #10b981; }
 
 .active-agent-badge {
-    background: rgba(212, 175, 55, 0.1);
+    background: rgba(251, 191, 36, 0.1);
     border: 1px solid var(--accent-color);
     color: var(--accent-color);
     padding: 4px 12px;
@@ -305,25 +306,9 @@ header {
     border: 1px solid var(--card-border);
 }
 
-/* Pricing Grid Architectures */
-.pricing-section {
-    padding: 60px 20px;
-    text-align: center;
-}
-
-.pricing-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 40px;
-}
-
-.pricing-grid {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    max-width: 900px;
-    margin: 0 auto;
-}
+.pricing-section { padding: 60px 20px; text-align: center; }
+.pricing-section h2 { font-size: 2.5rem; margin-bottom: 40px; }
+.pricing-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
 
 .price-card {
     background: var(--card-bg);
@@ -338,7 +323,7 @@ header {
 
 .price-card.popular {
     border-color: var(--accent-color);
-    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+    box-shadow: 0 10px 40px rgba(251, 191, 36, 0.15);
     transform: scale(1.03);
 }
 
@@ -348,7 +333,7 @@ header {
     left: 50%;
     transform: translateX(-50%);
     background: var(--accent-color);
-    color: #060b19;
+    color: #030712;
     padding: 4px 16px;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -359,7 +344,6 @@ header {
 .price-card .price { font-size: 3rem; font-weight: 800; color: var(--accent-color); }
 .price-card .price span { font-size: 1rem; color: var(--text-color); opacity: 0.7; }
 .price-card .desc { font-size: 0.9rem; opacity: 0.7; margin-bottom: 25px; }
-
 .price-card ul { list-style: none; text-align: left; margin-bottom: 30px; }
 .price-card ul li { margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
 .price-card ul li::before { content: "✓"; color: var(--accent-color); font-weight: bold; }
@@ -373,15 +357,9 @@ header {
     color: var(--text-color);
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.price-btn.gold-btn {
-    background: var(--accent-color);
-    color: #060b19;
-    border: none;
-}
-
+.price-btn.gold-btn { background: var(--accent-color); color: #030712; border: none; }
 .price-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--accent-glow); }
 .ai-loading-pulse { animation: flash 1.5s infinite ease-in-out; color: var(--accent-color); }
 @keyframes flash { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
