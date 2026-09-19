@@ -4,98 +4,334 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToolNest AI — Universal Multi-Model Workspace</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <style>
+        /* Premium Luxury Dark Navy & Shining Gold CSS Framework */
+        :root {
+            --bg-color: #030712;
+            --text-color: #ffffff;
+            --accent-color: #fbbf24;
+            --accent-glow: rgba(251, 191, 36, 0.4);
+            --core-glow: rgba(251, 191, 36, 0.15);
+            --card-bg: rgba(17, 24, 39, 0.65);
+            --card-border: rgba(251, 191, 36, 0.2);
+            --output-window-bg: rgba(17, 24, 39, 0.85);
+            --input-bg: rgba(31, 41, 55, 0.5);
+        }
 
-    <!-- 4D Royal Gold Immersive Canvas Layer -->
-    <div id="canvas-container">
-        <canvas id="neuralCanvas"></canvas>
-    </div>
+        [data-theme="light"] {
+            --bg-color: #f9fafb;
+            --text-color: #111827;
+            --accent-color: #d97706;
+            --accent-glow: rgba(217, 119, 6, 0.2);
+            --core-glow: rgba(31, 41, 55, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(217, 119, 6, 0.25);
+            --output-window-bg: rgba(255, 255, 255, 0.9);
+            --input-bg: rgba(243, 244, 246, 0.8);
+        }
 
-    <!-- Main Layout Architecture -->
-    <div class="page-wrapper">
-        <header>
-            <div class="logo">
-                <span class="logo-icon">🧠</span> ToolNest<span class="gold-text">AI</span>
-            </div>
-            
-            <div class="header-controls">
-                <select id="langSelector" class="lang-dropdown">
-                    <option value="en">🌐 English</option>
-                    <option value="bn">🌐 বাংলা</option>
-                    <option value="es">🌐 Español</option>
-                    <option value="fr">🌐 Français</option>
-                </select>
-                <button class="theme-toggle" id="themeBtn">🌙 Dark Mode</button>
-            </div>
-        </header>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
 
-        <section class="hero">
-            <div class="neural-core-glow"></div>
-            <h1 id="heroTitle">Universal AI Hub.<br>One Search, All Engines.</h1>
-            <p id="heroSubtitle">An advanced, multi-agent framework that auto-detects your intent to generate copy, precise code, or ultra-realistic graphics instantly.</p>
-            
-            <!-- Universal Input Matrix -->
-            <div class="workspace-container">
-                <select id="modelAgent" class="agent-dropdown">
-                    <option value="text">🧠 Text Cognition Agent (Gemini Core)</option>
-                    <option value="image">🎨 Creative Vision Agent (Flux Engine)</option>
-                </select>
-                <textarea class="input-box" id="aiPrompt" rows="3" placeholder="Ask anything..."></textarea>
-                <div class="action-row">
-                    <div class="quick-tags">
-                        <button class="tag" id="tagCopy" onclick="setQuickPrompt('Write a premium blog outline about AI automation')">✦ Write Copy</button>
-                        <button class="tag" id="tagArt" onclick="setQuickPrompt('Generate a highly realistic cybernetic brain neon core photo')">🎨 Generate Art</button>
-                    </div>
-                    <button class="submit-btn" id="generateBtn">Ask AI →</button>
-                </div>
-            </div>
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            min-height: 100vh;
+        }
 
-            <!-- Smart Response Display Window -->
-            <div class="output-container hidden" id="outputWindow">
-                <div class="output-header">
-                    <div class="window-dots">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <div class="active-agent-badge" id="agentBadge">🤖 System Core Active</div>
-                </div>
-                <div class="output-content" id="outputBody"></div>
-            </div>
-        </section>
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, #0d1b3e 0%, #030712 100%);
+        }
 
-        <!-- Premium SaaS Pricing Matrix -->
-        <section class="pricing-section">
-            <h2 id="pricingTitle">Flexible Plans for Global Scaling</h2>
-            <div class="pricing-grid">
-                <div class="price-card">
-                    <h3 id="planStarterTitle">Starter</h3>
-                    <div class="price">$0<span>/mo</span></div>
-                    <p class="desc" id="planStarterDesc">Perfect for testing the AI cores.</p>
-                    <ul>
-                        <li id="featureStarter1">3 Free Synapses / Day</li>
-                        <li id="featureStarter2">Standard Text Engine</li>
-                    </ul>
-                    <button class="price-btn" id="btnStarter">Current Plan</button>
-                </div>
-                <div class="price-card popular">
-                    <div class="badge" id="badgePopular">Popular</div>
-                    <h3 id="planProTitle">Pro Node</h3>
-                    <div class="price">$9<span>/mo</span></div>
-                    <p class="desc" id="planProDesc">Accelerate output with infinite scalability.</p>
-                    <ul>
-                        <li id="featurePro1">Unlimited Text Generations</li>
-                        <li id="featurePro2">1,000 HD Image Credits</li>
-                        <li id="featurePro3">Priority Server Routing</li>
-                    </ul>
-                    <button class="price-btn gold-btn" id="btnPro">Upgrade with Stripe</button>
-                </div>
-            </div>
-        </section>
-    </div>
+        [data-theme="light"] #canvas-container {
+            background: radial-gradient(circle at 50% 50%, #fef3c7 0%, #f9fafb 100%);
+        }
 
-    <script src="script.js"></script>
-</body>
-</html>
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.6rem;
+            letter-spacing: 0.5px;
+        }
+
+        .logo .gold-text {
+            color: var(--accent-color);
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lang-dropdown, .agent-dropdown {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 10px 15px;
+            border-radius: 12px;
+            outline: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .theme-toggle {
+            background: var(--accent-color);
+            color: #030712;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px var(--accent-color);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px 20px;
+            position: relative;
+        }
+
+        .neural-core-glow {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--core-glow) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            border-radius: 50%;
+            animation: corePulse 3s infinite ease-in-out;
+        }
+
+        @keyframes corePulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.15;
+            color: #ffffff;
+        }
+
+        .hero h1 span {
+            color: var(--accent-color);
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+
+        .workspace-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 25px;
+            max-width: 800px;
+            margin: 0 auto;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+
+        .agent-dropdown {
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .input-box {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            padding: 18px;
+            border-radius: 16px;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            outline: none;
+            resize: none;
+            margin-bottom: 20px;
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .quick-tags { display: flex; gap: 10px; }
+
+        .tag {
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: var(--accent-color);
+            color: #030712;
+        }
+
+        .submit-btn {
+            background: var(--accent-color);
+            color: #030712;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px var(--accent-color);
+        }
+
+        .output-container {
+            max-width: 800px;
+            margin: 40px auto 0 auto;
+            background: var(--output-window-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(25px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            text-align: left;
+        }
+
+        .output-container.hidden { display: none; }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .window-dots { display: flex; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        .dot.red { background: #ef4444; }
+        .dot.yellow { background: #f59e0b; }
+        .dot.green { background: #10b981; }
+
+        .active-agent-badge {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .output-content {
+            padding: 25px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .generated-image {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Tools Features Grid Setup */
+        .tools-grid-section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-align: left;
+            cursor: pointer;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
