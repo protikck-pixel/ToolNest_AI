@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- 4D Royal Gold Canvas Background Layer -->
+    <!-- 4D Royal Gold Immersive Canvas Layer -->
     <div id="canvas-container">
         <canvas id="neuralCanvas"></canvas>
     </div>
@@ -21,7 +21,6 @@
             </div>
             
             <div class="header-controls">
-                <!-- Advanced Multi-Language Swapper -->
                 <select id="langSelector" class="lang-dropdown">
                     <option value="en">🌐 English</option>
                     <option value="bn">🌐 বাংলা</option>
@@ -40,13 +39,12 @@
             <!-- Universal Input Matrix -->
             <div class="workspace-container">
                 <select id="modelAgent" class="agent-dropdown">
-                    <option value="text">🧠 Text Cognition Agent (Gemini)</option>
-                    <option value="image">🎨 Creative Vision Agent (Flux)</option>
-                    <option value="research">🌐 Deep Web Research Node</option>
+                    <option value="text">🧠 Text Cognition Agent (Gemini Core)</option>
+                    <option value="image">🎨 Creative Vision Agent (Flux Engine)</option>
                 </select>
                 <textarea class="input-box" id="aiPrompt" rows="3" placeholder="Ask anything..."></textarea>
                 <div class="action-row">
-                    <div class="quick-tags" id="tagContainer">
+                    <div class="quick-tags">
                         <button class="tag" id="tagCopy" onclick="setQuickPrompt('Write a premium blog outline about AI automation')">✦ Write Copy</button>
                         <button class="tag" id="tagArt" onclick="setQuickPrompt('Generate a highly realistic cybernetic brain neon core photo')">🎨 Generate Art</button>
                     </div>
@@ -54,7 +52,7 @@
                 </div>
             </div>
 
-            <!-- Smart Response Node Display (Mac-Style Window) -->
+            <!-- Smart Response Display Window -->
             <div class="output-container hidden" id="outputWindow">
                 <div class="output-header">
                     <div class="window-dots">
