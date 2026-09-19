@@ -1,62 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>ToolNest AI — One Box. Any Task.</title>
-  <meta name="description" content="ToolNest AI helps you turn ideas into useful content with simple AI-powered tools.">
+  <title>ToolNest AI — One AI Workspace</title>
+  <meta
+    name="description"
+    content="ToolNest AI turns your ideas into useful results with one simple AI workspace."
+  />
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
   <!-- Background -->
-  <div class="background-glow glow-one"></div>
-  <div class="background-glow glow-two"></div>
-  <div class="background-grid"></div>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="grid-background"></div>
 
   <!-- NAVBAR -->
   <header class="navbar">
-    <div class="nav-container">
+    <a href="#" class="brand">
+      <span class="brand-mark">
+        <span class="mark-line line-one"></span>
+        <span class="mark-line line-two"></span>
+        <span class="mark-node node-one"></span>
+        <span class="mark-node node-two"></span>
+        <span class="mark-node node-three"></span>
+      </span>
 
-      <a href="#" class="logo">
-        <span class="logo-icon">✦</span>
-        <span>ToolNest<span class="logo-ai">AI</span></span>
-      </a>
+      <span class="brand-name">
+        ToolNest<span> AI</span>
+      </span>
+    </a>
 
-      <nav class="desktop-nav">
-        <a href="#tools">Tools</a>
-        <a href="#solutions">Solutions</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="#pricing">Pricing</a>
-      </nav>
-
-      <div class="nav-actions">
-        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle theme">
-          ☾
-        </button>
-
-        <a href="#" class="login-button">Log in</a>
-        <a href="#" class="signup-button">Sign up</a>
-
-        <button id="menuToggle" class="menu-button" type="button" aria-label="Open menu">
-          ☰
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Mobile menu -->
-    <div id="mobileMenu" class="mobile-menu">
+    <nav class="nav-links">
+      <a href="#workspace">Workspace</a>
       <a href="#tools">Tools</a>
-      <a href="#solutions">Solutions</a>
-      <a href="#how-it-works">How it works</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#" class="mobile-login">Log in</a>
-      <a href="#" class="mobile-signup">Sign up</a>
+      <a href="#how">How it works</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="theme-button" id="themeToggle" aria-label="Toggle theme">
+        ☾
+      </button>
+
+      <a href="#" class="login-button">Log in</a>
+      <a href="#" class="signup-button">Sign up</a>
     </div>
+
+    <button class="mobile-menu" id="mobileMenu">
+      ☰
+    </button>
   </header>
 
 
@@ -66,246 +63,298 @@
     <section class="hero">
 
       <div class="hero-badge">
-        <span class="badge-dot"></span>
-        AI tools for everyday work
+        <span class="status-dot"></span>
+        AI workspace for everyday tasks
       </div>
 
       <h1>
-        One box.
-        <span>Any task.</span>
+        Tell us what you need.
+        <span>We'll figure out the rest.</span>
       </h1>
 
-      <p class="hero-text">
-        Tell ToolNest what you want to get done.
-        We'll help you find the right way to do it.
+      <p class="hero-description">
+        One intelligent workspace for writing, ideas, research,
+        content, productivity and more.
       </p>
 
-      <!-- ONE BOX -->
-      <div class="one-box-wrapper">
 
-        <div class="one-box">
+      <!-- AI WORKSPACE -->
+      <div class="ai-workspace" id="workspace">
 
-          <div class="one-box-top">
-            <span class="sparkle">✦</span>
+        <div class="workspace-glow"></div>
 
-            <input
-              id="oneBoxInput"
-              type="text"
-              placeholder="What do you want to create?"
-              autocomplete="off"
-            >
+        <div class="workspace-top">
 
-            <button id="oneBoxButton" type="button">
-              <span>Ask ToolNest</span>
-              <span class="arrow">→</span>
-            </button>
+          <div class="ai-identity">
+            <div class="ai-orb">
+              <span></span>
+            </div>
+
+            <div>
+              <strong>ToolNest AI</strong>
+              <small>Ready to help</small>
+            </div>
           </div>
 
-          <div class="suggestions">
-            <span>Try:</span>
-
-            <button type="button" data-suggestion="Write a Facebook caption for my restaurant">
-              Facebook caption
-            </button>
-
-            <button type="button" data-suggestion="Summarize this text">
-              Summarize
-            </button>
-
-            <button type="button" data-suggestion="Write a professional email">
-              Email
-            </button>
-
-            <button type="button" data-suggestion="Give me 10 business name ideas">
-              Business names
-            </button>
+          <div class="workspace-status">
+            <span></span>
+            Online
           </div>
 
         </div>
 
-        <!-- RESULT -->
-        <div id="oneBoxResult" class="one-box-result"></div>
+
+        <div class="prompt-area">
+
+          <textarea
+            id="promptInput"
+            placeholder="What would you like to create?"
+            rows="4"
+          ></textarea>
+
+          <div class="prompt-bottom">
+
+            <div class="suggestions">
+              <button class="suggestion">
+                ✦ Write something
+              </button>
+
+              <button class="suggestion">
+                ◇ Give me ideas
+              </button>
+
+              <button class="suggestion">
+                ◎ Help me research
+              </button>
+            </div>
+
+            <button class="run-button" id="runAI">
+              <span>Ask AI</span>
+              <span class="arrow">→</span>
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- AI RESPONSE -->
+        <div class="ai-response" id="aiResponse">
+
+          <div class="response-header">
+
+            <div class="response-title">
+              <div class="mini-orb"></div>
+
+              <div>
+                <strong>ToolNest is thinking</strong>
+                <small id="responseStatus">
+                  Understanding your request
+                </small>
+              </div>
+            </div>
+
+            <div class="response-actions">
+              <button>Copy</button>
+              <button>Regenerate</button>
+            </div>
+
+          </div>
+
+
+          <div class="thinking-animation" id="thinkingAnimation">
+
+            <div class="thinking-line"></div>
+            <div class="thinking-line short"></div>
+            <div class="thinking-line"></div>
+
+          </div>
+
+
+          <div class="response-content" id="responseContent">
+
+            <p>
+              Your AI result will appear here.
+            </p>
+
+          </div>
+
+        </div>
 
       </div>
 
-      <div class="hero-note">
-        <span>✦</span>
-        No complicated prompts. Just tell us what you need.
+
+      <!-- TRUST -->
+      <div class="hero-trust">
+
+        <span>Built for</span>
+
+        <div class="trust-items">
+          <span>✦ Creators</span>
+          <span>◈ Students</span>
+          <span>◇ Businesses</span>
+          <span>◎ Everyone</span>
+        </div>
+
       </div>
 
-    </section>
-
-
-    <!-- TRUST -->
-    <section class="trust-section">
-      <p>BUILT FOR THE WAY YOU WORK</p>
-
-      <div class="trust-items">
-        <span>✦ Creators</span>
-        <span>◈ Students</span>
-        <span>◇ Freelancers</span>
-        <span>✧ Businesses</span>
-        <span>○ Everyone</span>
-      </div>
     </section>
 
 
     <!-- TOOLS -->
-    <section id="tools" class="section">
+    <section class="tools-section" id="tools">
 
       <div class="section-heading">
+
         <div>
           <span class="section-label">EXPLORE TOOLNEST</span>
-          <h2>Tools that get things done.</h2>
+
+          <h2>
+            One workspace.
+            <span>Many possibilities.</span>
+          </h2>
         </div>
 
         <p>
-          Simple AI tools designed to turn your ideas
-          into something useful.
+          Instead of searching through dozens of separate tools,
+          start with what you want to accomplish.
         </p>
-      </div>
-
-
-      <div class="tools-grid">
-
-        <article class="tool-card card-purple">
-          <div class="tool-icon">✍</div>
-          <span class="tool-tag">WRITING</span>
-          <h3>Caption Generator</h3>
-          <p>Create engaging captions for Facebook, Instagram and more.</p>
-          <a href="#one-box">Try it <span>→</span></a>
-        </article>
-
-        <article class="tool-card card-blue">
-          <div class="tool-icon">◫</div>
-          <span class="tool-tag">TEXT</span>
-          <h3>Text Summarizer</h3>
-          <p>Turn long content into short, clear and useful summaries.</p>
-          <a href="#one-box">Try it <span>→</span></a>
-        </article>
-
-        <article class="tool-card card-pink">
-          <div class="tool-icon">▶</div>
-          <span class="tool-tag">VIDEO</span>
-          <h3>Video Hook Generator</h3>
-          <p>Create opening lines designed to grab attention quickly.</p>
-          <a href="#one-box">Try it <span>→</span></a>
-        </article>
-
-        <article class="tool-card card-orange">
-          <div class="tool-icon">✦</div>
-          <span class="tool-tag">BUSINESS</span>
-          <h3>Business Name Ideas</h3>
-          <p>Generate memorable names for your next business or brand.</p>
-          <a href="#one-box">Try it <span>→</span></a>
-        </article>
-
-        <article class="tool-card card-green">
-          <div class="tool-icon">@</div>
-          <span class="tool-tag">COMMUNICATION</span>
-          <h3>Email Writer</h3>
-          <p>Create professional emails without staring at a blank page.</p>
-          <a href="#one-box">Try it <span>→</span></a>
-        </article>
-
-        <article class="tool-card card-cyan">
-          <div class="tool-icon">#</div>
-          <span class="tool-tag">SOCIAL</span>
-          <h3>Social Post Generator</h3>
-          <p>Turn simple ideas into ready-to-use social media posts.</p>
-          <a href="#one-box">Try it <span>→</span></a>
-        </article>
 
       </div>
 
-    </section>
 
+      <div class="tool-grid">
 
-    <!-- SMART SECTION -->
-    <section id="one-box" class="smart-section">
+        <article class="tool-card featured-tool">
 
-      <div class="smart-card">
-
-        <div class="smart-content">
-          <span class="section-label">THE SMART WAY</span>
-
-          <h2>
-            Don't know which tool
-            you need?
-          </h2>
-
-          <p>
-            That's exactly why we built One Box.
-            Describe your goal in your own words and
-            ToolNest can point you in the right direction.
-          </p>
-
-          <button class="primary-button" type="button" onclick="focusOneBox()">
-            Try One Box <span>→</span>
-          </button>
-        </div>
-
-        <div class="smart-visual">
-
-          <div class="floating-card floating-one">
-            <span>✦</span>
-            <div>
-              <small>YOUR IDEA</small>
-              <strong>Need a catchy post...</strong>
-            </div>
+          <div class="tool-icon purple">
+            ✦
           </div>
 
-          <div class="smart-arrow">↓</div>
+          <div class="tool-info">
+            <span class="tool-number">01</span>
 
-          <div class="floating-card floating-two">
-            <span>✧</span>
-            <div>
-              <small>TOOLNEST</small>
-              <strong>Social Post Generator</strong>
-            </div>
+            <h3>AI Writer</h3>
+
+            <p>
+              Create posts, captions, emails, scripts
+              and other content.
+            </p>
           </div>
 
-        </div>
+          <span class="card-arrow">↗</span>
 
-      </div>
-
-    </section>
+        </article>
 
 
-    <!-- SOLUTIONS -->
-    <section id="solutions" class="section">
+        <article class="tool-card">
 
-      <div class="section-heading centered">
-        <span class="section-label">MADE FOR YOU</span>
-        <h2>Whatever you're working on.</h2>
-        <p>One place for the small tasks that slow you down.</p>
-      </div>
+          <div class="tool-icon blue">
+            ◇
+          </div>
 
-      <div class="solutions-grid">
+          <div class="tool-info">
+            <span class="tool-number">02</span>
 
-        <div class="solution-card">
-          <div class="solution-number">01</div>
-          <h3>For Creators</h3>
-          <p>Hooks, captions, content ideas and social posts.</p>
-        </div>
+            <h3>Idea Generator</h3>
 
-        <div class="solution-card">
-          <div class="solution-number">02</div>
-          <h3>For Work</h3>
-          <p>Emails, summaries, rewriting and everyday communication.</p>
-        </div>
+            <p>
+              Turn a simple thought into useful,
+              actionable ideas.
+            </p>
+          </div>
 
-        <div class="solution-card">
-          <div class="solution-number">03</div>
-          <h3>For Business</h3>
-          <p>Names, descriptions, ads and customer communication.</p>
-        </div>
+          <span class="card-arrow">↗</span>
 
-        <div class="solution-card">
-          <div class="solution-number">04</div>
-          <h3>For Students</h3>
-          <p>Summaries, ideas, rewriting and study assistance.</p>
-        </div>
+        </article>
+
+
+        <article class="tool-card">
+
+          <div class="tool-icon green">
+            ◎
+          </div>
+
+          <div class="tool-info">
+            <span class="tool-number">03</span>
+
+            <h3>Research Assistant</h3>
+
+            <p>
+              Organize information and discover
+              useful insights faster.
+            </p>
+          </div>
+
+          <span class="card-arrow">↗</span>
+
+        </article>
+
+
+        <article class="tool-card">
+
+          <div class="tool-icon orange">
+            ◈
+          </div>
+
+          <div class="tool-info">
+            <span class="tool-number">04</span>
+
+            <h3>Summarizer</h3>
+
+            <p>
+              Turn long information into clear,
+              useful summaries.
+            </p>
+          </div>
+
+          <span class="card-arrow">↗</span>
+
+        </article>
+
+
+        <article class="tool-card">
+
+          <div class="tool-icon pink">
+            ✧
+          </div>
+
+          <div class="tool-info">
+            <span class="tool-number">05</span>
+
+            <h3>Social Content</h3>
+
+            <p>
+              Generate engaging content for your
+              social platforms.
+            </p>
+          </div>
+
+          <span class="card-arrow">↗</span>
+
+        </article>
+
+
+        <article class="tool-card coming-soon">
+
+          <div class="tool-icon neutral">
+            +
+          </div>
+
+          <div class="tool-info">
+            <span class="tool-number">06+</span>
+
+            <h3>More coming</h3>
+
+            <p>
+              New AI capabilities will keep
+              expanding the workspace.
+            </p>
+          </div>
+
+          <span class="card-arrow">→</span>
+
+        </article>
 
       </div>
 
@@ -313,35 +362,71 @@
 
 
     <!-- HOW IT WORKS -->
-    <section id="how-it-works" class="section how-section">
+    <section class="how-section" id="how">
 
-      <div class="section-heading centered">
-        <span class="section-label">HOW IT WORKS</span>
-        <h2>Simple by design.</h2>
+      <div class="section-label">
+        HOW TOOLNEST WORKS
       </div>
+
+      <h2>
+        You bring the idea.
+        <span>AI handles the complexity.</span>
+      </h2>
+
 
       <div class="steps">
 
         <div class="step">
+
           <div class="step-number">01</div>
-          <h3>Tell us</h3>
-          <p>Describe what you want in normal words.</p>
+
+          <div>
+            <h3>Tell us</h3>
+
+            <p>
+              Describe what you want in your own words.
+              No complicated prompts required.
+            </p>
+          </div>
+
         </div>
+
 
         <div class="step-line"></div>
 
+
         <div class="step">
+
           <div class="step-number">02</div>
-          <h3>Find your tool</h3>
-          <p>ToolNest points you toward the right workflow.</p>
+
+          <div>
+            <h3>We understand</h3>
+
+            <p>
+              ToolNest identifies the task and chooses
+              the right AI workflow.
+            </p>
+          </div>
+
         </div>
+
 
         <div class="step-line"></div>
 
+
         <div class="step">
+
           <div class="step-number">03</div>
-          <h3>Get it done</h3>
-          <p>Create, improve and finish your work faster.</p>
+
+          <div>
+            <h3>Get your result</h3>
+
+            <p>
+              Review, improve, copy or regenerate
+              your result from one place.
+            </p>
+          </div>
+
         </div>
 
       </div>
@@ -349,55 +434,28 @@
     </section>
 
 
-    <!-- PRICING -->
-    <section id="pricing" class="pricing-section">
-
-      <div class="pricing-card">
-
-        <div>
-          <span class="section-label">TOOLNEST PRO</span>
-
-          <h2>More tools. More possibilities.</h2>
-
-          <p>
-            Free tools are just the beginning.
-            Premium AI features are coming soon.
-          </p>
-        </div>
-
-        <div class="price">
-          <span>$</span>5<small>/month</small>
-        </div>
-
-        <button class="primary-button disabled-button" type="button">
-          Coming soon
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- FINAL CTA -->
-    <section class="final-cta">
+    <!-- CTA -->
+    <section class="cta-section">
 
       <div class="cta-glow"></div>
 
-      <span class="section-label">READY?</span>
+      <span class="section-label">
+        YOUR NEXT IDEA STARTS HERE
+      </span>
 
       <h2>
-        Your next idea starts
-        <span>here.</span>
+        Stop looking for the right tool.
+        <span>Just tell ToolNest.</span>
       </h2>
 
       <p>
-        Stop searching for the right tool.
-        Just tell ToolNest what you need.
+        One box. One workspace. Endless possibilities.
       </p>
 
-      <button class="primary-button large-button" type="button" onclick="focusOneBox()">
-        Start with One Box <span>→</span>
-      </button>
+      <a href="#workspace" class="cta-button">
+        Start with ToolNest
+        <span>→</span>
+      </a>
 
     </section>
 
@@ -407,30 +465,48 @@
   <!-- FOOTER -->
   <footer class="footer">
 
-    <div class="footer-main">
+    <div class="footer-brand">
 
-      <a href="#" class="logo">
-        <span class="logo-icon">✦</span>
-        <span>ToolNest<span class="logo-ai">AI</span></span>
+      <a href="#" class="brand">
+        <span class="brand-mark">
+          <span class="mark-line line-one"></span>
+          <span class="mark-line line-two"></span>
+          <span class="mark-node node-one"></span>
+          <span class="mark-node node-two"></span>
+          <span class="mark-node node-three"></span>
+        </span>
+
+        <span class="brand-name">
+          ToolNest<span> AI</span>
+        </span>
       </a>
 
       <p>
-        One box. Any task.
+        Your intelligent workspace for everyday AI.
       </p>
-
-      <div class="footer-links">
-        <a href="#tools">Tools</a>
-        <a href="#solutions">Solutions</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-      </div>
 
     </div>
 
+
+    <div class="footer-links">
+
+      <a href="#workspace">Workspace</a>
+      <a href="#tools">Tools</a>
+      <a href="#how">How it works</a>
+
+    </div>
+
+
     <div class="footer-bottom">
-      <span>© 2026 ToolNest AI</span>
-      <span>Built for everyone.</span>
+
+      <span>
+        © 2026 ToolNest AI
+      </span>
+
+      <span>
+        Built for humans. Powered by AI.
+      </span>
+
     </div>
 
   </footer>
