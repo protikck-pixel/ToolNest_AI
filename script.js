@@ -1,458 +1,180 @@
-/* =========================================================
-   TOOLNEST AI — V2 INTERACTIONS
-   ========================================================= */
+const canvas = document.getElementById('neuralCanvas');
+const ctx = canvas.getContext('2d');
 
-document.addEventListener("DOMContentLoaded", () => {
+let width, height;
+let particles = [];
+let mouse = { x: null, y: null, targetX: null, targetY: null, radius: 180 };
+let activeTheme = 'dark';
 
-  const themeToggle = document.getElementById("themeToggle");
-  const promptInput = document.getElementById("promptInput");
-  const runAI = document.getElementById("runAI");
+// 4D Parallax Multi-layer Configuration
+const LAYER_COUNT = 3; 
+const PARTICLE_COUNT = 90;
 
-  const aiResponse = document.getElementById("aiResponse");
-  const thinkingAnimation =
-    document.getElementById("thinkingAnimation");
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
 
-  const responseContent =
-    document.getElementById("responseContent");
+// Track mouse coordinate offsets for smooth inertia
+window.addEventListener('mousemove', (e) => {
+    mouse.targetX = e.clientX;
+    mouse.targetY = e.clientY;
+});
 
-  const responseStatus =
-    document.getElementById("responseStatus");
+window.addEventListener('mouseleave', () => {
+    mouse.targetX = null;
+    mouse.targetY = null;
+});
 
-  const suggestions =
-    document.querySelectorAll(".suggestion");
+class Particle {
+    constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        // Layer assigns depth (1 to 3). Higher layer = closer, larger, faster
+        this.layer = Math.floor(Math.random() * LAYER_COUNT) + 1; 
+        this.radius = this.layer * 1.2;
+        this.baseSpeedX = (Math.random() - 0.5) * (this.layer * 0.4);
+        this.baseSpeedY = (Math.random() - 0.5) * (this.layer * 0.4);
+        this.vx = this.baseSpeedX;
+        this.vy = this.baseSpeedY;
+        
+        // For animated data stream tracking
+        this.streamProgress = Math.random();
+        this.streamSpeed = 0.005 + (Math.random() * 0.005);
+    }
 
+    update() {
+        // Smooth Mouse Inertia Mapping for 4D Parallax
+        if (mouse.x !== null && mouse.targetX !== null) {
+            // Parallax structural offset based on depth layer weight
+            const depthFactor = this.layer * 0.15;
+            const dx = mouse.x - width / 2;
+            const dy = mouse.y - height / 2;
+            
+            this.x += this.vx - (dx * depthFactor * 0.01);
+            this.y += this.vy - (dy * depthFactor * 0.01);
+        } else {
+            this.x += this.vx;
+            this.y += this.vy;
+        }
 
-  /* =======================================================
-     THEME
-     ======================================================= */
+        // Screen boundaries warp loop
+        if (this.x < 0) this.x = width;
+        if (this.x > width) this.x = 0;
+        if (this.y < 0) this.y = height;
+        if (this.y > height) this.y = 0;
 
-  const savedTheme = localStorage.getItem("toolnest-theme");
+        // Neural streams progression tick
+        this.streamProgress += this.streamSpeed;
+        if (this.streamProgress > 1) {
+            this.streamProgress = 0;
+        }
+    }
 
-  if (savedTheme === "light") {
-    document.body.classList.add("light");
-    themeToggle.textContent = "☀";
-  } else {
-    themeToggle.textContent = "☾";
-  }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = activeTheme === 'dark' 
+            ? `rgba(0, 242, 254, ${0.2 * this.layer})` 
+            : `rgba(59, 130, 246, ${0.2 * this.layer})`;
+        ctx.fill();
+    }
+}
 
+function init() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(new Particle());
+    }
+}
 
-  themeToggle.addEventListener("click", () => {
+function drawConnections() {
+    // Match line styling dynamically to UI state variables
+    let lineColor = activeTheme === 'dark' ? '0, 242, 254' : '59, 130, 246';
+    let streamColor = activeTheme === 'dark' ? '#7f00ff' : '#9333ea';
 
-    document.body.classList.toggle("light");
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            // Only connect nodes residing on compatible structural layers
+            if (Math.abs(particles[i].layer - particles[j].layer) <= 1) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
 
-    const isLight =
-      document.body.classList.contains("light");
+                let maxDist = 130 + (particles[i].layer * 20);
 
-    localStorage.setItem(
-      "toolnest-theme",
-      isLight ? "light" : "dark"
-    );
+                if (dist < maxDist) {
+                    let alpha = (1 - dist / maxDist) * 0.15;
+                    ctx.strokeStyle = `rgba(${lineColor}, ${alpha})`;
+                    ctx.lineWidth = 0.5 * (particles[i].layer * 0.5);
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
 
-    themeToggle.textContent =
-      isLight ? "☀" : "☾";
-  });
+                    // Render flowing live data processing nodes on lines
+                    if (dist < maxDist - 30 && i % 3 === 0) {
+                        let p1 = particles[i];
+                        let p2 = particles[j];
+                        // Interpolated point based on stream progress metrics
+                        let cx = p1.x + (p2.x - p1.x) * p1.streamProgress;
+                        let cy = p1.y + (p2.y - p1.y) * p1.streamProgress;
 
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, 1.5, 0, Math.PI * 2);
+                        ctx.fillStyle = streamColor;
+                        ctx.shadowBlur = 4;
+                        ctx.shadowColor = streamColor;
+                        ctx.fill();
+                        ctx.shadowBlur = 0; // reset
+                    }
+                }
+            }
+        }
+    }
+}
 
-  /* =======================================================
-     SUGGESTION BUTTONS
-     ======================================================= */
+function animate() {
+    ctx.clearRect(0, 0, width, height);
 
-  suggestions.forEach((button) => {
+    // Smooth interpolation for mouse responsiveness
+    if (mouse.targetX !== null) {
+        if (mouse.x === null) {
+            mouse.x = mouse.targetX;
+            mouse.y = mouse.targetY;
+        } else {
+            mouse.x += (mouse.targetX - mouse.x) * 0.08;
+            mouse.y += (mouse.targetY - mouse.y) * 0.08;
+        }
+    } else {
+        mouse.x = null;
+        mouse.y = null;
+    }
 
-    button.addEventListener("click", () => {
-
-      const text =
-        button.textContent.toLowerCase();
-
-      if (text.includes("write")) {
-
-        promptInput.value =
-          "Write an engaging Facebook post for my business.";
-
-      } else if (text.includes("idea")) {
-
-        promptInput.value =
-          "Give me 10 creative ideas for growing my small business.";
-
-      } else if (text.includes("research")) {
-
-        promptInput.value =
-          "Help me research this topic and explain the important points simply.";
-
-      }
-
-      promptInput.focus();
-
+    particles.forEach(p => {
+        p.update();
+        p.draw();
     });
 
-  });
+    drawConnections();
+    requestAnimationFrame(animate);
+}
 
+init();
+animate();
 
-  /* =======================================================
-     AI WORKSPACE DEMO
-     ======================================================= */
-
-  runAI.addEventListener("click", () => {
-
-    const prompt =
-      promptInput.value.trim();
-
-    if (!prompt) {
-
-      promptInput.focus();
-
-      promptInput.placeholder =
-        "Tell ToolNest what you need...";
-
-      return;
+// Theme Toggle Controller Node logic
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+    if (activeTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeBtn.innerText = '☀️ Light Mode';
+        activeTheme = 'light';
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+        themeBtn.innerText = '🌙 Dark Mode';
+        activeTheme = 'dark';
     }
-
-
-    /* Show response area */
-
-    aiResponse.classList.add("show");
-
-    thinkingAnimation.style.display = "block";
-    responseContent.style.display = "none";
-
-    responseStatus.textContent =
-      "Understanding your request";
-
-
-    /* Scroll gently */
-
-    setTimeout(() => {
-
-      aiResponse.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
-
-    }, 100);
-
-
-    /* AI thinking stages */
-
-    setTimeout(() => {
-
-      responseStatus.textContent =
-        "Finding the right workflow";
-
-    }, 900);
-
-
-    setTimeout(() => {
-
-      responseStatus.textContent =
-        "Preparing your result";
-
-    }, 1700);
-
-
-    setTimeout(() => {
-
-      thinkingAnimation.style.display =
-        "none";
-
-      responseContent.style.display =
-        "block";
-
-      responseStatus.textContent =
-        "Result ready";
-
-      responseContent.innerHTML =
-        generateDemoResponse(prompt);
-
-    }, 2400);
-
-  });
-
-
-  /* =======================================================
-     DEMO RESPONSE ENGINE
-     ======================================================= */
-
-  function generateDemoResponse(prompt) {
-
-    const lower =
-      prompt.toLowerCase();
-
-
-    if (
-      lower.includes("facebook") ||
-      lower.includes("caption") ||
-      lower.includes("post")
-    ) {
-
-      return `
-        <p><strong>Here's a polished version for you:</strong></p>
-
-        <p>
-          🍽️ Great food deserves a great story.
-          Come and enjoy delicious flavors,
-          a welcoming atmosphere, and moments
-          worth sharing.
-        </p>
-
-        <p>
-          ✨ Visit us today and make your next
-          meal a memorable one.
-        </p>
-      `;
-
-    }
-
-
-    if (
-      lower.includes("idea") ||
-      lower.includes("ideas")
-    ) {
-
-      return `
-        <p><strong>Here are a few ideas to start with:</strong></p>
-
-        <p>
-          1. Create a simple weekly content series.<br>
-          2. Share customer stories and experiences.<br>
-          3. Offer a limited-time promotion.<br>
-          4. Create short educational videos.<br>
-          5. Turn frequently asked questions into content.
-        </p>
-      `;
-
-    }
-
-
-    if (
-      lower.includes("research") ||
-      lower.includes("analyze") ||
-      lower.includes("analysis")
-    ) {
-
-      return `
-        <p><strong>Let's break your request into useful parts:</strong></p>
-
-        <p>
-          ToolNest can organize the topic,
-          identify the important questions,
-          compare relevant information,
-          and turn the findings into a
-          simple actionable summary.
-        </p>
-      `;
-
-    }
-
-
-    return `
-      <p><strong>ToolNest understands your request.</strong></p>
-
-      <p>
-        Your request is:
-        <em>“${escapeHTML(prompt)}”</em>
-      </p>
-
-      <p>
-        This is the ToolNest AI workspace.
-        Once the real AI engine is connected,
-        this area will generate the actual
-        result for your request.
-      </p>
-
-      <p>
-        ✦ Analyze &nbsp; · &nbsp;
-        ✦ Create &nbsp; · &nbsp;
-        ✦ Improve
-      </p>
-    `;
-
-  }
-
-
-  /* =======================================================
-     SAFE TEXT
-     ======================================================= */
-
-  function escapeHTML(text) {
-
-    const div =
-      document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-
-  }
-
-
-  /* =======================================================
-     ENTER KEY
-     ======================================================= */
-
-  promptInput.addEventListener(
-    "keydown",
-    (event) => {
-
-      if (
-        event.key === "Enter" &&
-        !event.shiftKey
-      ) {
-
-        event.preventDefault();
-
-        runAI.click();
-
-      }
-
-    }
-  );
-
-
-  /* =======================================================
-     COPY / REGENERATE
-     ======================================================= */
-
-  const responseButtons =
-    document.querySelectorAll(
-      ".response-actions button"
-    );
-
-
-  if (responseButtons.length >= 2) {
-
-    const copyButton =
-      responseButtons[0];
-
-    const regenerateButton =
-      responseButtons[1];
-
-
-    copyButton.addEventListener(
-      "click",
-      async () => {
-
-        const text =
-          responseContent.innerText.trim();
-
-        if (!text) return;
-
-        try {
-
-          await navigator.clipboard.writeText(
-            text
-          );
-
-          const oldText =
-            copyButton.textContent;
-
-          copyButton.textContent =
-            "Copied ✓";
-
-          setTimeout(() => {
-
-            copyButton.textContent =
-              oldText;
-
-          }, 1500);
-
-        } catch (error) {
-
-          copyButton.textContent =
-            "Copy failed";
-
-          setTimeout(() => {
-
-            copyButton.textContent =
-              "Copy";
-
-          }, 1500);
-
-        }
-
-      }
-    );
-
-
-    regenerateButton.addEventListener(
-      "click",
-      () => {
-
-        if (!promptInput.value.trim()) {
-          return;
-        }
-
-        runAI.click();
-
-      }
-    );
-
-  }
-
-
-  /* =======================================================
-     MOBILE MENU
-     ======================================================= */
-
-  const mobileMenu =
-    document.getElementById("mobileMenu");
-
-  const navLinks =
-    document.querySelector(".nav-links");
-
-
-  if (mobileMenu && navLinks) {
-
-    mobileMenu.addEventListener(
-      "click",
-      () => {
-
-        const visible =
-          navLinks.style.display === "flex";
-
-        navLinks.style.display =
-          visible ? "" : "flex";
-
-        if (!visible) {
-
-          navLinks.style.position =
-            "absolute";
-
-          navLinks.style.top =
-            "65px";
-
-          navLinks.style.left =
-            "0";
-
-          navLinks.style.right =
-            "0";
-
-          navLinks.style.padding =
-            "18px";
-
-          navLinks.style.flexDirection =
-            "column";
-
-          navLinks.style.alignItems =
-            "flex-start";
-
-          navLinks.style.background =
-            "rgba(10,10,16,.96)";
-
-          navLinks.style.border =
-            "1px solid rgba(255,255,255,.08)";
-
-          navLinks.style.borderRadius =
-            "14px";
-
-          navLinks.style.backdropFilter =
-            "blur(20px)";
-
-        }
-
-      }
-    );
-
-  }
-
-
 });
