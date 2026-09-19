@@ -1,351 +1,458 @@
-document.addEventListener("DOMContentLoaded", function () {
+/* =========================================================
+   TOOLNEST AI — V2 INTERACTIONS
+   ========================================================= */
 
-  /* =========================
-     THEME
-  ========================= */
+document.addEventListener("DOMContentLoaded", () => {
 
-  const body = document.body;
   const themeToggle = document.getElementById("themeToggle");
+  const promptInput = document.getElementById("promptInput");
+  const runAI = document.getElementById("runAI");
 
-  function updateThemeIcon() {
-    if (!themeToggle) return;
+  const aiResponse = document.getElementById("aiResponse");
+  const thinkingAnimation =
+    document.getElementById("thinkingAnimation");
 
-    if (body.classList.contains("dark")) {
-      themeToggle.textContent = "☀";
-      themeToggle.setAttribute("aria-label", "Switch to light mode");
-    } else {
-      themeToggle.textContent = "☾";
-      themeToggle.setAttribute("aria-label", "Switch to dark mode");
-    }
-  }
+  const responseContent =
+    document.getElementById("responseContent");
+
+  const responseStatus =
+    document.getElementById("responseStatus");
+
+  const suggestions =
+    document.querySelectorAll(".suggestion");
+
+
+  /* =======================================================
+     THEME
+     ======================================================= */
 
   const savedTheme = localStorage.getItem("toolnest-theme");
 
-  if (savedTheme === "dark") {
-    body.classList.add("dark");
-  }
-
-  updateThemeIcon();
-
-  if (themeToggle) {
-    themeToggle.addEventListener("click", function () {
-
-      body.classList.toggle("dark");
-
-      const newTheme = body.classList.contains("dark")
-        ? "dark"
-        : "light";
-
-      localStorage.setItem("toolnest-theme", newTheme);
-
-      updateThemeIcon();
-    });
+  if (savedTheme === "light") {
+    document.body.classList.add("light");
+    themeToggle.textContent = "☀";
+  } else {
+    themeToggle.textContent = "☾";
   }
 
 
-  /* =========================
-     MOBILE MENU
-  ========================= */
+  themeToggle.addEventListener("click", () => {
 
-  const menuToggle = document.getElementById("menuToggle");
-  const mobileMenu = document.getElementById("mobileMenu");
+    document.body.classList.toggle("light");
 
-  if (menuToggle && mobileMenu) {
+    const isLight =
+      document.body.classList.contains("light");
 
-    menuToggle.addEventListener("click", function (event) {
+    localStorage.setItem(
+      "toolnest-theme",
+      isLight ? "light" : "dark"
+    );
 
-      event.stopPropagation();
+    themeToggle.textContent =
+      isLight ? "☀" : "☾";
+  });
 
-      mobileMenu.classList.toggle("open");
 
-    });
+  /* =======================================================
+     SUGGESTION BUTTONS
+     ======================================================= */
 
-    mobileMenu.querySelectorAll("a").forEach(function (link) {
+  suggestions.forEach((button) => {
 
-      link.addEventListener("click", function () {
-        mobileMenu.classList.remove("open");
-      });
+    button.addEventListener("click", () => {
 
-    });
+      const text =
+        button.textContent.toLowerCase();
 
-    document.addEventListener("click", function (event) {
+      if (text.includes("write")) {
 
-      if (
-        mobileMenu.classList.contains("open") &&
-        !mobileMenu.contains(event.target) &&
-        !menuToggle.contains(event.target)
-      ) {
-        mobileMenu.classList.remove("open");
+        promptInput.value =
+          "Write an engaging Facebook post for my business.";
+
+      } else if (text.includes("idea")) {
+
+        promptInput.value =
+          "Give me 10 creative ideas for growing my small business.";
+
+      } else if (text.includes("research")) {
+
+        promptInput.value =
+          "Help me research this topic and explain the important points simply.";
+
       }
 
-    });
-  }
-
-
-  /* =========================
-     ONE BOX
-  ========================= */
-
-  const oneBoxInput = document.getElementById("oneBoxInput");
-  const oneBoxButton = document.getElementById("oneBoxButton");
-  const oneBoxResult = document.getElementById("oneBoxResult");
-
-  const suggestionButtons =
-    document.querySelectorAll("[data-suggestion]");
-
-
-  /* Suggestions */
-
-  suggestionButtons.forEach(function (button) {
-
-    button.addEventListener("click", function () {
-
-      const suggestion =
-        button.getAttribute("data-suggestion");
-
-      if (!oneBoxInput) return;
-
-      oneBoxInput.value = suggestion;
-
-      oneBoxInput.focus();
+      promptInput.focus();
 
     });
 
   });
 
 
-  /* Escape HTML */
+  /* =======================================================
+     AI WORKSPACE DEMO
+     ======================================================= */
 
-  function escapeHTML(value) {
+  runAI.addEventListener("click", () => {
 
-    const element = document.createElement("div");
+    const prompt =
+      promptInput.value.trim();
 
-    element.textContent = value;
+    if (!prompt) {
 
-    return element.innerHTML;
+      promptInput.focus();
 
-  }
-
-
-  /* One Box engine */
-
-  function runOneBox() {
-
-    if (!oneBoxInput || !oneBoxResult) return;
-
-    const request = oneBoxInput.value.trim();
-
-    if (!request) {
-
-      oneBoxResult.innerHTML = `
-        <div class="result-inner">
-          <span class="result-label">TOOLNEST</span>
-          <h3>Tell me what you need.</h3>
-          <p>
-            Try something like:
-            "Write a Facebook caption for my restaurant."
-          </p>
-        </div>
-      `;
-
-      oneBoxResult.classList.add("show");
+      promptInput.placeholder =
+        "Tell ToolNest what you need...";
 
       return;
     }
 
 
-    const text = request.toLowerCase();
+    /* Show response area */
 
-    let tool = "ToolNest Assistant";
+    aiResponse.classList.add("show");
 
-    let description =
-      "Your request has been understood. ToolNest will help you find the right workflow.";
+    thinkingAnimation.style.display = "block";
+    responseContent.style.display = "none";
+
+    responseStatus.textContent =
+      "Understanding your request";
+
+
+    /* Scroll gently */
+
+    setTimeout(() => {
+
+      aiResponse.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+
+    }, 100);
+
+
+    /* AI thinking stages */
+
+    setTimeout(() => {
+
+      responseStatus.textContent =
+        "Finding the right workflow";
+
+    }, 900);
+
+
+    setTimeout(() => {
+
+      responseStatus.textContent =
+        "Preparing your result";
+
+    }, 1700);
+
+
+    setTimeout(() => {
+
+      thinkingAnimation.style.display =
+        "none";
+
+      responseContent.style.display =
+        "block";
+
+      responseStatus.textContent =
+        "Result ready";
+
+      responseContent.innerHTML =
+        generateDemoResponse(prompt);
+
+    }, 2400);
+
+  });
+
+
+  /* =======================================================
+     DEMO RESPONSE ENGINE
+     ======================================================= */
+
+  function generateDemoResponse(prompt) {
+
+    const lower =
+      prompt.toLowerCase();
 
 
     if (
-      text.includes("caption") ||
-      text.includes("instagram") ||
-      text.includes("facebook post")
+      lower.includes("facebook") ||
+      lower.includes("caption") ||
+      lower.includes("post")
     ) {
 
-      tool = "Caption Generator";
-
-      description =
-        "Create engaging captions for Facebook, Instagram and other social platforms.";
-
-    }
-
-    else if (
-      text.includes("summarize") ||
-      text.includes("summary") ||
-      text.includes("summarise")
-    ) {
-
-      tool = "Text Summarizer";
-
-      description =
-        "Turn long content into a shorter, clearer and easier-to-read summary.";
-
-    }
-
-    else if (
-      text.includes("email") ||
-      text.includes("mail")
-    ) {
-
-      tool = "Email Writer";
-
-      description =
-        "Create a professional email from your simple instructions.";
-
-    }
-
-    else if (
-      text.includes("hook") ||
-      text.includes("youtube") ||
-      text.includes("video")
-    ) {
-
-      tool = "Video Hook Generator";
-
-      description =
-        "Create attention-grabbing opening lines for your videos.";
-
-    }
-
-    else if (
-      text.includes("business name") ||
-      text.includes("company name") ||
-      text.includes("brand name")
-    ) {
-
-      tool = "Business Name Generator";
-
-      description =
-        "Generate memorable ideas for your business or brand.";
-
-    }
-
-    else if (
-      text.includes("social") ||
-      text.includes("linkedin")
-    ) {
-
-      tool = "Social Media Post Generator";
-
-      description =
-        "Turn your idea into a ready-to-use social media post.";
-
-    }
-
-
-    oneBoxResult.innerHTML = `
-      <div class="result-inner">
-
-        <span class="result-label">
-          SUGGESTED TOOL
-        </span>
-
-        <h3>${escapeHTML(tool)}</h3>
+      return `
+        <p><strong>Here's a polished version for you:</strong></p>
 
         <p>
-          ${escapeHTML(description)}
+          🍽️ Great food deserves a great story.
+          Come and enjoy delicious flavors,
+          a welcoming atmosphere, and moments
+          worth sharing.
         </p>
 
-        <div class="result-request">
+        <p>
+          ✨ Visit us today and make your next
+          meal a memorable one.
+        </p>
+      `;
 
-          <strong>Your request:</strong>
+    }
 
-          <span>
-            ${escapeHTML(request)}
-          </span>
 
-        </div>
+    if (
+      lower.includes("idea") ||
+      lower.includes("ideas")
+    ) {
 
-      </div>
+      return `
+        <p><strong>Here are a few ideas to start with:</strong></p>
+
+        <p>
+          1. Create a simple weekly content series.<br>
+          2. Share customer stories and experiences.<br>
+          3. Offer a limited-time promotion.<br>
+          4. Create short educational videos.<br>
+          5. Turn frequently asked questions into content.
+        </p>
+      `;
+
+    }
+
+
+    if (
+      lower.includes("research") ||
+      lower.includes("analyze") ||
+      lower.includes("analysis")
+    ) {
+
+      return `
+        <p><strong>Let's break your request into useful parts:</strong></p>
+
+        <p>
+          ToolNest can organize the topic,
+          identify the important questions,
+          compare relevant information,
+          and turn the findings into a
+          simple actionable summary.
+        </p>
+      `;
+
+    }
+
+
+    return `
+      <p><strong>ToolNest understands your request.</strong></p>
+
+      <p>
+        Your request is:
+        <em>“${escapeHTML(prompt)}”</em>
+      </p>
+
+      <p>
+        This is the ToolNest AI workspace.
+        Once the real AI engine is connected,
+        this area will generate the actual
+        result for your request.
+      </p>
+
+      <p>
+        ✦ Analyze &nbsp; · &nbsp;
+        ✦ Create &nbsp; · &nbsp;
+        ✦ Improve
+      </p>
     `;
 
-    oneBoxResult.classList.add("show");
+  }
 
-    oneBoxResult.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
+
+  /* =======================================================
+     SAFE TEXT
+     ======================================================= */
+
+  function escapeHTML(text) {
+
+    const div =
+      document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
 
   }
 
 
-  /* Ask button */
+  /* =======================================================
+     ENTER KEY
+     ======================================================= */
 
-  if (oneBoxButton) {
+  promptInput.addEventListener(
+    "keydown",
+    (event) => {
 
-    oneBoxButton.addEventListener("click", function () {
-      runOneBox();
-    });
-
-  }
-
-
-  /* Enter key */
-
-  if (oneBoxInput) {
-
-    oneBoxInput.addEventListener("keydown", function (event) {
-
-      if (event.key === "Enter") {
+      if (
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
 
         event.preventDefault();
 
-        runOneBox();
+        runAI.click();
 
       }
 
-    });
+    }
+  );
+
+
+  /* =======================================================
+     COPY / REGENERATE
+     ======================================================= */
+
+  const responseButtons =
+    document.querySelectorAll(
+      ".response-actions button"
+    );
+
+
+  if (responseButtons.length >= 2) {
+
+    const copyButton =
+      responseButtons[0];
+
+    const regenerateButton =
+      responseButtons[1];
+
+
+    copyButton.addEventListener(
+      "click",
+      async () => {
+
+        const text =
+          responseContent.innerText.trim();
+
+        if (!text) return;
+
+        try {
+
+          await navigator.clipboard.writeText(
+            text
+          );
+
+          const oldText =
+            copyButton.textContent;
+
+          copyButton.textContent =
+            "Copied ✓";
+
+          setTimeout(() => {
+
+            copyButton.textContent =
+              oldText;
+
+          }, 1500);
+
+        } catch (error) {
+
+          copyButton.textContent =
+            "Copy failed";
+
+          setTimeout(() => {
+
+            copyButton.textContent =
+              "Copy";
+
+          }, 1500);
+
+        }
+
+      }
+    );
+
+
+    regenerateButton.addEventListener(
+      "click",
+      () => {
+
+        if (!promptInput.value.trim()) {
+          return;
+        }
+
+        runAI.click();
+
+      }
+    );
 
   }
 
 
-  /* =========================
-     FOCUS ONE BOX
-  ========================= */
+  /* =======================================================
+     MOBILE MENU
+     ======================================================= */
 
-  window.focusOneBox = function () {
+  const mobileMenu =
+    document.getElementById("mobileMenu");
 
-    const heroBox = document.getElementById("oneBoxInput");
-
-    if (!heroBox) return;
-
-    heroBox.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-
-    setTimeout(function () {
-      heroBox.focus();
-    }, 500);
-
-  };
+  const navLinks =
+    document.querySelector(".nav-links");
 
 
-  /* =========================
-     CTRL + K
-  ========================= */
+  if (mobileMenu && navLinks) {
 
-  document.addEventListener("keydown", function (event) {
+    mobileMenu.addEventListener(
+      "click",
+      () => {
 
-    if (
-      (event.ctrlKey || event.metaKey) &&
-      event.key.toLowerCase() === "k"
-    ) {
+        const visible =
+          navLinks.style.display === "flex";
 
-      event.preventDefault();
+        navLinks.style.display =
+          visible ? "" : "flex";
 
-      if (oneBoxInput) {
-        oneBoxInput.focus();
+        if (!visible) {
+
+          navLinks.style.position =
+            "absolute";
+
+          navLinks.style.top =
+            "65px";
+
+          navLinks.style.left =
+            "0";
+
+          navLinks.style.right =
+            "0";
+
+          navLinks.style.padding =
+            "18px";
+
+          navLinks.style.flexDirection =
+            "column";
+
+          navLinks.style.alignItems =
+            "flex-start";
+
+          navLinks.style.background =
+            "rgba(10,10,16,.96)";
+
+          navLinks.style.border =
+            "1px solid rgba(255,255,255,.08)";
+
+          navLinks.style.borderRadius =
+            "14px";
+
+          navLinks.style.backdropFilter =
+            "blur(20px)";
+
+        }
+
       }
+    );
 
-    }
+  }
 
-  });
 
 });
